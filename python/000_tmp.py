@@ -1,6 +1,9 @@
 '''
+26/12/2018
 
 1. Two Sum - Easy
+
+Tag: 
 
 Given an array of integers, return indices of the two numbers such that they add up to a specific target.
 
@@ -17,6 +20,10 @@ return [0, 1].
 
 # Solution
 class Solution(object):
+    '''
+    Time complexity : O(max(m,n))
+    Space complexity : O(max(m,n)+1)
+    '''
     def twoSum(self, nums, target):
         """
         :type nums: List[int]

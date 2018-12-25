@@ -1,4 +1,7 @@
 '''
+25/12/2018
+
+Tag: Binary Search
 
 35. Search Insert Position - Easy
 
@@ -27,15 +30,17 @@ Output: 0
 
 '''
 
-# Solution
-class Solution(object):
+class Solution:
+    '''
+    Time Complexity: O(logn). 
+    Space Complexity: O(1).
+    '''
     def searchInsert(self, nums, target):
         """
         :type nums: List[int]
         :type target: int
         :rtype: int
         """
-        # indicate the left and right of the nums list
         left, right = 0, len(nums) - 1
         if target < nums[left]:
             # insert in the first index
@@ -43,17 +48,16 @@ class Solution(object):
         if target > nums[right]:
             # insert after the last index
             return right + 1
-        while left < right:
-            # find the index of mid value
+        while left <= right:
             mid = (left + right) // 2
-            if nums[mid] < target:
-                left = mid + 1
-            elif nums[mid] > target:
-                right = mid
-            else:
+            if nums[mid] == target:
                 return mid
+            elif nums[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        # first value larger than the target, insert in this position.
         return left
-                
 
 
 # Unit Test
@@ -65,7 +69,7 @@ class SearchInsertPositionCase(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_twoSum(self):
+    def test_SearchInsertPosition(self):
         func = Solution().searchInsert
         self.assertEqual(func([1,3,5,6], 5), 2)
         self.assertEqual(func([1,3,5,6], 2), 1)

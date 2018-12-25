@@ -1,6 +1,10 @@
 '''
+26/12/2018
+
+Tag: Hash Table
 
 1. Two Sum - Easy
+
 
 Given an array of integers, return indices of the two numbers such that they add up to a specific target.
 
@@ -16,31 +20,33 @@ return [0, 1].
 '''
 
 # Solution
-class Solution(object):
+class Solution:
+    '''
+    Time complexity : O(n). We traverse the list containing nn elements only once. Each look up in the table costs only O(1) time.
+    Space complexity : O(n). The extra space required depends on the number of items stored in the hash table, which stores exactly nn elements.
+    '''
     def twoSum(self, nums, target):
         """
         :type nums: List[int]
         :type target: int
         :rtype: List[int]
         """
-        n = len(nums)
-        hmap = {} # store the difference between target and selected num.
-        res = [] # res list
-        for i in range(n):
-            # check if the num in the hashmap.
-            if nums[i] in hmap:
+        hashmap = {}
+        for i in range(len(nums)):
+            complement = target - nums[i]
+            if complement in hashmap:
                 # if in the map, means previous there is a value which
                 # meets the requirement (previous + current = target)
-                
-                res.append(hmap[nums[i]]) # the previous value should be placed at the first
-                res.append(i)
-                return res
+                # return [previous_idx, current_idx]
+                # the previous value should be placed at the first
+                return [hashmap[complement], i]
             else:
-                # if not in the map, add the future value which meet 
-                # the requirement with this current value in the map
+                # if not in the map, add this current value which meet 
+                # the requirement with the future value in the map
                 # for retrieve in the next.
-                # {(target - current) : index of current num}
-                hmap[target - nums[i]] = i
+                # {current : index of current num}
+                hashmap[nums[i]] = i
+        raise ValueError("No two sum solution")
 
 # Unit Test
 import unittest

@@ -1,7 +1,10 @@
 '''
 18/12/2018
 
+Tag: LinkedList
+
 2. Add Two Numbers - Medium
+
 
 You are given two non-empty linked lists representing two non-negative integers.
 The digits are stored in reverse order and each of their nodes contain a single digit.
@@ -18,17 +21,16 @@ Explanation: 342 + 465 = 807.
 '''
 
 # Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
 class ListNode:
     def __init__(self, x):
         self.val = x
         self.next = None
 
 class Solution:
+    '''
+    Time complexity : O(max(m,n)). Assume that m and n represents the length of l1 and l2 respectively, the algorithm above iterates at most max(m,n) times.
+    Space complexity : O(max(m,n)). The length of the new list is at most max(m,n)+1.
+    '''
     def addTwoNumbers(self, l1, l2):
         """
         :type l1: ListNode
@@ -45,12 +47,12 @@ class Solution:
             x = p.val if p != None else 0
             # Set y to node q's value. If q has reached the end of l2, set to 0.
             y = q.val if q != None else 0
-            sum = carry + x + y
+            sumVal = carry + x + y
             # update carry = (int)sum/10 
-            carry = int(sum / 10)
+            carry = sumVal // 10
             # Create a new node with the digit value of (sum mod 10) and set it to
             # current node's next, then advance current node to next
-            curr.next = ListNode(sum % 10) 
+            curr.next = ListNode(sumVal % 10) 
             curr = curr.next
             # advance both p and q
             if p != None:

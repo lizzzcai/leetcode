@@ -1,7 +1,10 @@
 """
 18/12/2018
 
+Tag: Array, Recursive
+
 4. Median of Two Sorted Arrays - Hard
+
 
 There are two sorted arrays nums1 and nums2 of size m and n respectively.
 
@@ -26,6 +29,15 @@ The median is (2 + 3)/2 = 2.5
 
 # Recursive Approach
 class Solution:
+    """
+    Time complexity: O(log(min(m,n))).
+    At first, the searching range is [0, m]. And the length of this searching range will be reduced by half after each loop. 
+    So, we only need log(m) loops. Since we do constant operations in each loop, so the time complexity is O(log(m)).
+    Since m ≤ n, so the time complexity is O(log(min(m,n))).
+
+    Space complexity: O(1).
+    We only need constant memory to store 99 local variables, so the space complexity is O(1).
+    """
     def findMedianSortedArrays(self, nums1, nums2):
         """
         :type nums1: List[int]

@@ -1,7 +1,10 @@
 """
 19/12/2018
 
+Tag: Hash Table, Set, Array
+
 3. Longest Substring Without Repeating Characters - Medium
+
 
 Given a string, find the length of the longest substring without repeating characters.
 
@@ -24,8 +27,15 @@ Explanation: The answer is "wke", with the length of 3.
 
 """
 
-# using set
+# Using set
 class Solution1:
+    """
+    Sliding Window
+
+    Time complexity : O(2n)=O(n). In the worst case each character will be visited twice by i and j.
+
+    Space complexity : O(min(m,n)). Same as the previous approach. We need O(k) space for the sliding window, where k is the size of the Set. The size of the Set is upper bounded by the size of the string n and the size of the charset/alphabet m. 
+    """
     def lengthOfLongestSubstring(self, s):
         """
         :type s: str
@@ -47,6 +57,15 @@ class Solution1:
         return ans
 
 class Solution:
+    """
+    Sliding Window Optimized
+    
+    Time complexity : O(n). Index j will iterate n times.
+
+    Space complexity (HashMap) : O(min(m, n)). Same as the previous approach.
+
+    Space complexity (Table): O(m). m is the size of the charset.
+    """
     def lengthOfLongestSubstring(self, s):
         """
         :type s: str

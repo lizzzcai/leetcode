@@ -1,7 +1,10 @@
 """
 21/12/2018
 
+Tag: Array
+
 5. Longest Palindromic Substring - Medium
+
 
 Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
 
@@ -19,6 +22,11 @@ Output: "bb"
 
 # Expand Around Center
 class Solution:
+    """
+    Time complexity : O(n^2). Since expanding a palindrome around its center could take O(n) time, the overall complexity is O(n^2).
+
+    Space complexity : O(1). 
+    """    
     def longestPalindrome(self, s):
         """
         :type s: str
@@ -61,10 +69,15 @@ class Solution:
         return R - L - 1    # after while loop terminate, L-1 and R+1 are run. so need to minus
 
 class Solution1:
-    #Manacher algorithm
-    #http://en.wikipedia.org/wiki/Longest_palindromic_substring
-    #Based on this article: http://articles.leetcode.com/2011/11/longest-palindromic-substring-part-ii.html
+    """
+    Manacher algorithm
+    http://en.wikipedia.org/wiki/Longest_palindromic_substring
+    Based on this article: http://articles.leetcode.com/2011/11/longest-palindromic-substring-part-ii.html
     
+    Time complexity : O(n).
+
+    Space complexity : O(n). 
+    """
     def longestPalindrome(self, s):
         # Transform S into T.
         # For example, S = "abba", T = "^#a#b#b#a#$".
@@ -72,10 +85,14 @@ class Solution1:
         T = '#'.join('^{}$'.format(s))
         n = len(T)
         P = [0] * n
-        C = R = 0
+        C, R = 0, 0
         for i in range (1, n-1):
-            P[i] = (R > i) and min(R - i, P[2*C - i]) # equals to i' = C - (i-C)
+            # //P[i] = (R > i) and min(R - i, P[2*C - i]) # equals to i' = C - (i-C)
+            i_mirror = 2 * C - i # equal to i' = C - (i -C)
+            P[i] = min(R - i, P[i_mirror]) if R > i else 0
+
             # Attempt to expand palindrome centered at i
+            # +1 and -1 to expand one step first.
             while T[i + 1 + P[i]] == T[i - 1 - P[i]]:
                 P[i] += 1
     
@@ -85,8 +102,8 @@ class Solution1:
                 C, R = i, i + P[i]
     
         # Find the maximum element in P.
-        maxLen, centerIndex = max((n, i) for i, n in enumerate(P))
-        return s[(centerIndex  - maxLen)//2: (centerIndex  + maxLen)//2]
+        maxLen, centerIndex = max((_len, idx) for idx, _len in enumerate(P))
+        return s[(centerIndex  - maxLen) // 2: (centerIndex  + maxLen) // 2]
 
 # Unit Test
 import unittest
