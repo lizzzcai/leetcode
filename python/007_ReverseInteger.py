@@ -54,8 +54,25 @@ class Solution:
             x = x // 10
         return result * sign
         
-        
-        
+class Solution1:
+    def reverse(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        sign = 1 if x > 0 else -1
+        x = sign * x
+        x_str = list(str(x))
+        start, end = 0, len(x_str) - 1
+        while start < end:
+            x_str[start], x_str[end] = x_str[end], x_str[start]
+            start += 1
+            end -= 1
+        x = int("".join(x_str))
+        if x > 2**31:
+            return 0
+        else:
+            return x * sign   
 
         
 # Unit Test

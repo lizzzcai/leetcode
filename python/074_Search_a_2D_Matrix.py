@@ -1,20 +1,34 @@
 '''
 19/02/2019
 
-1. Two Sum - Easy
+74. Search a 2D Matrix - Medium
 
-Tag: 
+Tag: Array, Binary
 
-Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
+Integers in each row are sorted from left to right.
+The first integer of each row is greater than the last integer of the previous row.
+Example 1:
 
-Example:
+Input:
+matrix = [
+  [1,   3,  5,  7],
+  [10, 11, 16, 20],
+  [23, 30, 34, 50]
+]
+target = 3
+Output: true
+Example 2:
 
-Given nums = [2, 7, 11, 15], target = 9,
-
-Because nums[0] + nums[1] = 2 + 7 = 9,
-return [0, 1].
+Input:
+matrix = [
+  [1,   3,  5,  7],
+  [10, 11, 16, 20],
+  [23, 30, 34, 50]
+]
+target = 13
+Output: false
 
 '''
 
