@@ -44,8 +44,7 @@ class Solution:
         print(f"hq: {hq}")
         while hq:
             t, temp = 0, []
-            while t <= n:
-                time += 1
+            while t < n + 1:
                 print(f"time: {time}, hq: {hq}")
                 print(f"t: {t}, temp: {temp}")
                 if hq:
@@ -54,6 +53,7 @@ class Solution:
                     if freq < -1: # freq is negative. if freq >= -1, means it has completed
                         # freq minus 1 and push it back
                         heappush(temp, (freq+1, task))
+                time += 1                
                 if not hq and not temp:
                     break
                 t += 1
