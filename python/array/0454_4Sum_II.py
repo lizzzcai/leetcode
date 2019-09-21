@@ -30,7 +30,10 @@ The two tuples are:
 from typing import List
 class Solution:
     def fourSumCount(self, A: List[int], B: List[int], C: List[int], D: List[int]) -> int:
-        
+        """
+        time: O(n^2)
+        space: O(n^2)
+        """
         # init count map
         cnt = {}
         for a in A:
