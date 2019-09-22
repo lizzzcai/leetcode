@@ -85,8 +85,10 @@ class RandomizedCollection:
         """
         Get a random element from the collection.
         """
-        return self.data[random.randrange(len(self.data))]
-
+        if self.data:
+            return self.data[random.randrange(len(self.data))]
+        else:
+            return None
 
 # Your RandomizedCollection object will be instantiated and called as such:
 obj = RandomizedCollection()
@@ -97,4 +99,7 @@ print(obj.remove(2))
 print(obj.remove(2))
 print(obj.remove(1))
 print(obj.remove(2))
+print(obj.getRandom())
+print(obj.remove(1))
+print(obj.remove(1))
 print(obj.getRandom())
