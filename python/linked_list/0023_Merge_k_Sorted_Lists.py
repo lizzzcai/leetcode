@@ -39,6 +39,48 @@ class Solution:
         
         return head.next
 
+
+from queue import PriorityQueue
+from dataclasses import dataclass, field
+from typing import Any
+
+@dataclass(order=True)
+class PrioritizedItem_dc:
+    priority: int
+    item: Any=field(compare=False)
+
+class PrioritizedItem:
+    def __init__(self, priority, item):
+        self.priority = priority
+        self.item = item
+
+    def __lt__(self, other):
+        return self.priority <  other.priority
+
+class Solution1:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        '''
+        piorityQ
+        Time: O(Nlogk)
+        Space O(1)
+        '''
+        q = PriorityQueue()
+        for l in lists:
+            if l:
+                q.put(PrioritizedItem(l.val, l))
+        
+        head = point = ListNode(None)
+        while not q.empty():
+            item = q.get()
+            val, node = item.priority, item.item
+            point.next = ListNode(val)
+            point = point.next
+            node = node.next
+            if node:
+                q.put(PrioritizedItem(node.val, node))
+            
+        return head.next
+
 def list_to_linkedlist(val_list):
     head = node = ListNode(None)
     for val in val_list:
@@ -53,6 +95,7 @@ def linkedlist_to_list(head):
         head = head.next
     return res
 
+
 # Unit Test
 import unittest
 class mergeKListsCase(unittest.TestCase):
@@ -63,7 +106,7 @@ class mergeKListsCase(unittest.TestCase):
         pass
 
     def test_mergeKLists(self):
-        func = Solution().mergeKLists
+        func = Solution1().mergeKLists
         l1 = list_to_linkedlist([1,4,5])
         l2 = list_to_linkedlist([1,3,4])
         l3 = list_to_linkedlist([2,6])
