@@ -32,7 +32,7 @@ class Solution:
         if not head or not head.next:
             return head
         
-        # find the mid
+        # find the mid by slow fast pointer
         prev, slow, fast = None, head, head
         while fast and fast.next:
             prev, slow, fast = slow, slow.next, fast.next.next
@@ -40,22 +40,20 @@ class Solution:
         # break it into two lists
         prev.next = None
         
-        # recursive into left and right list
+        # recursive into left and right lists
         left = self.sortList(head)
         right = self.sortList(slow)
         
         return self.mergeSort(left, right)
     
     def mergeSort(self, leftList: ListNode, rightList: ListNode) -> ListNode:
+        # init the dummy head
         res = ListNode(None)
         curr = res
-        
-        while leftList or rightList:
+        # compare and merge
+        while leftList and rightList:
             
-            val_l = leftList.val if leftList else float('inf')
-            val_r = rightList.val if rightList else float('inf')
-            
-            if val_l <= val_r:
+            if leftList.val <= rightList.val:
                 curr.next = leftList
                 leftList = leftList.next
             else:
@@ -64,8 +62,13 @@ class Solution:
             
             curr = curr.next
         
-        return res.next
+        # append the rest
+        if leftList:
+            curr.next = leftList
+        if rightList:
+            curr.next = rightList
         
+        return res.next
 
 
 

@@ -70,8 +70,11 @@ class Solution1:
         n = head
         
         while n:
-            hmap.setdefault(n, Node(None,None,None)).val = n.val
-            hmap[n].next = hmap.setdefault(n.next, Node(None,None,None))
-            hmap[n].random = hmap.setdefault(n.random, Node(None,None,None))
+            # store the current node n, if not exist, make a copy and assign the value
+            hmap.setdefault(n, Node(None, None, None)).val = n.val
+            # set the next and random values of the copy node, if not exist, create a new node for them.
+            hmap[n].next = hmap.setdefault(n.next, Node(None, None, None))
+            hmap[n].random = hmap.setdefault(n.random, Node(None, None, None))
             n = n.next
+        
         return hmap[head]
