@@ -48,10 +48,15 @@ Constraints:
 """
 from threading import Lock
 
+'''
+https://cloud.tencent.com/developer/article/1402042
+100% - 100%
+'''
+from threading import Lock
+
 class DiningPhilosophers:
     
     forks = [Lock() for _ in range(5)]
-    even = Lock()
     
     # call the functions directly to execute, for example, eat()
     def wantsToEat(self,
@@ -63,20 +68,22 @@ class DiningPhilosophers:
                    putRightFork: 'Callable[[], None]') -> None:
         
         i = philosopher
-        if i % 2 == 0:
-            self.even.acquire()
-            
         right_fork = i
         left_fork = (i+1) % 5
-        
-        self.forks[right_fork].acquire()
-        self.forks[left_fork].acquire()
+        if i % 2 == 0:
+            self.forks[right_fork].acquire()
+            self.forks[left_fork].acquire()
+        else:
+            self.forks[left_fork].acquire()
+            self.forks[right_fork].acquire()
         pickRightFork()
         pickLeftFork()
         eat()
         putLeftFork()
         putRightFork()
-        self.forks[right_fork].release()
-        self.forks[left_fork].release()
         if i % 2 == 0:
-            self.even.release()
+            self.forks[left_fork].release()
+            self.forks[right_fork].release()
+        else:
+            self.forks[right_fork].release()
+            self.forks[left_fork].release()
