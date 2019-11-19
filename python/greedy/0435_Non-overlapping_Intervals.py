@@ -81,6 +81,9 @@ class addTwoNumbersCase(unittest.TestCase):
         # test 3
         self.assertEqual(func([[1,2],[2,3]]), 0)
 
+        # test 4
+        self.assertEqual(func([[1,5],[2,3], [3,4]]), 1)
+
 
 
 

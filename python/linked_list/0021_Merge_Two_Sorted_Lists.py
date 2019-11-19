@@ -21,6 +21,11 @@ class ListNode:
 from typing import List
 class Solution:
     def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        '''
+        Time: O(max(m,n))
+        Space O(1)
+
+        '''
         head = node = ListNode(None)
         while l1 and l2:
             if l1.val > l2.val:
