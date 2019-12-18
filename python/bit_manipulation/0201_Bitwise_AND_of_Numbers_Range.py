@@ -21,6 +21,8 @@ Output: 0
 # Solution
 class Solution:
     '''
+    https://leetcode.com/problems/bitwise-and-of-numbers-range/discuss/56719/JavaPython-easy-solution-with-explanation
+
     1.last bit of (odd number & even number) is 0.
     2.when m != n, There is at least an odd number and an even number, so the last bit position result is 0.
     3.Move m and n right a position.
