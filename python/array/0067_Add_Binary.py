@@ -33,12 +33,12 @@ class Solution:
             bin_a = int(a[m]) if m >= 0 else 0
             bin_b = int(b[n]) if n >=0 else 0
             add = bin_a + bin_b + carry
-            carry, remind = divmod(add, 2)
-            res.append(remind)
+            carry, remain = divmod(add, 2)
+            res.append(remain)
             m -= 1
             n -= 1
         if carry:
-            res.append(carry)
+            res.append(carry) # 1
         res = res[::-1]
         return "".join(map(str, res))
                 
