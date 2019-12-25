@@ -1,5 +1,5 @@
 '''
-19/02/2019
+25/12/2019
 
 1. Two Sum - Easy
 
@@ -18,6 +18,7 @@ return [0, 1].
 
 '''
 
+from typing import List
 # Solution
 class Solution:
     '''
