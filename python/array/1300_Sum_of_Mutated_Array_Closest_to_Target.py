@@ -37,7 +37,7 @@ Constraints:
 
 from typing import List
 # Solution
-class Solution:
+class Solution0:
     '''
     Time complexity : O(nlogn)
     Space complexity : O(1)
@@ -81,6 +81,45 @@ class Solution:
             return v
         else:
             return v+1
+
+# binary search
+class Solution1:
+    def findBestValue(self, arr: List[int], target: int) -> int:
+        
+        def _sum(mid):
+            return sum([v if v <= mid else mid for v in arr])
+        
+        l, r = 0, max(arr)
+        while l <= r:
+            mid = l + (r-l)//2
+            s = _sum(mid)
+            if s == target:
+                return mid
+            if target > s:
+                l = mid + 1
+            else:
+                r = mid - 1
+                
+        if abs(target - _sum(r)) <= abs(target - _sum(r+1)):
+            return r
+        else:
+            return r+1
+        
+        
+# sort and iterate
+class Solution:
+    def findBestValue(self, arr: List[int], target: int) -> int:
+        arr.sort()
+        s, n = 0, len(arr)
+        
+        for i in range(n):
+            ans = round((target - s)/(n-i))
+            if ans <= arr[i]: return ans 
+            s += arr[i]
+            
+        return arr[-1]
+
+
 
 # Unit Test
 import unittest
