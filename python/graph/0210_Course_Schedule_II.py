@@ -1,7 +1,7 @@
 '''
 30/12/2019
 
-207. Course Schedule - Medium
+210. Course Schedule II - Medium
 
 Tag: Graph, BFS, DFS
 
@@ -10,21 +10,23 @@ There are a total of n courses you have to take, labeled from 0 to n-1.
 
 Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
 
-Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
+Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take to finish all courses.
+
+There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array.
 
 Example 1:
 
 Input: 2, [[1,0]] 
-Output: true
-Explanation: There are a total of 2 courses to take. 
-             To take course 1 you should have finished course 0. So it is possible.
+Output: [0,1]
+Explanation: There are a total of 2 courses to take. To take course 1 you should have finished   
+             course 0. So the correct course order is [0,1] .
 Example 2:
 
-Input: 2, [[1,0],[0,1]]
-Output: false
-Explanation: There are a total of 2 courses to take. 
-             To take course 1 you should have finished course 0, and to take course 0 you should
-             also have finished course 1. So it is impossible.
+Input: 4, [[1,0],[2,0],[3,1],[3,2]]
+Output: [0,1,2,3] or [0,2,1,3]
+Explanation: There are a total of 4 courses to take. To take course 3 you should have finished both     
+             courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0. 
+             So one correct course order is [0,1,2,3]. Another correct ordering is [0,2,1,3] .
 Note:
 
 The input prerequisites is a graph represented by a list of edges, not adjacency matrices. Read more about how a graph is represented.
@@ -36,10 +38,12 @@ from typing import List
 # Solution 1 - BFS
 class Solution1:
     '''
-    BFS
+    The time efficiency is O(V^2+VE), because each dfs in adjacency list is O(V+E) and we do it V times .
+    for i in xrange(numCourses): O(V) . * dfs() O(V+E)
+    Space efficiency is O(E).
     '''
-    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        # init storage to store the courses, the number of prerequisite for each course and the course list taking this course as prerequistie.
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+
         courses_set = set()
         num_of_prerequisites = dict()
         prerequisite_for = dict()
@@ -49,6 +53,8 @@ class Solution1:
             num_of_prerequisites[i] = 0
             prerequisite_for[i] = []
         
+        # order to store result
+        orders = []
         # iterate the prerequisites
         for pair in prerequisites:
             key, value = pair[0], pair[1]
@@ -70,11 +76,13 @@ class Solution1:
                 if num_of_prerequisites[c] == 0:
                     courses_without_prerequistite.append(c)
             
+            # add the course into order
+            orders.append(course)
+            
         for c in courses_set:
             if num_of_prerequisites[c] != 0:
-                return False
-        return True
-
+                return []
+        return orders
 
 # Solution 2 - DFS
 from collections import defaultdict
@@ -84,7 +92,8 @@ class Solution2:
     for i in xrange(numCourses): O(V) . * dfs() O(V+E)
     Space efficiency is O(E).
     '''
-    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+
         # init graph and visited
         graph = defaultdict(list)
         visited = [0 for _ in range(numCourses)]
@@ -93,13 +102,15 @@ class Solution2:
             course, prerequisite = pair
             graph[course].append(prerequisite)
         
+        # init the orders
+        orders = []
         # start to visit each node
         for course in range(numCourses):
-            if not self.dfs(graph, visited, course):
-                return False
-        return True
+            if not self.dfs(graph, visited, orders, course):
+                return []
+        return orders
     
-    def dfs(self, graph, visited, i):
+    def dfs(self, graph, visited, orders, i):
         '''
         if node v has not been visited, then mark it as 0.
         if node v is being visited, then mark it as -1. If we find a vertex marked as -1 in DFS, then their is a ring.
@@ -116,9 +127,11 @@ class Solution2:
         visited[i] = -1
         # visit all the neighours
         for j in graph[i]:
-            if not self.dfs(graph, visited, j):
+            if not self.dfs(graph, visited, orders, j):
                 return False
         
+        # add into orders
+        orders.append(i)
         # after visit all the neighbours, mark it as done visited
         visited[i] = 1
         
@@ -127,23 +140,22 @@ class Solution2:
 
 # Unit Test
 import unittest
-class canFinishCase(unittest.TestCase):
+class findOrderCase(unittest.TestCase):
     def setUp(self):
         pass
 
     def tearDown(self):
         pass
 
-    def test_canFinishCase(self):
-        func = Solution1().canFinish
-        self.assertEqual(func(2, [[1,0]]), True)
-        self.assertEqual(func(2, [[1,0], [0,1]]), False)
-        self.assertEqual(func(1, []), True)
-
-        func = Solution2().canFinish
-        self.assertEqual(func(2, [[1,0]]), True)
-        self.assertEqual(func(2, [[1,0], [0,1]]), False)
-        self.assertEqual(func(1, []), True)
+    def test_findOrderCase(self):
+        func = Solution1().findOrder
+        self.assertEqual(func(2, [[1,0]]), [0,1])
+        self.assertEqual(func(4, [[1,0],[2,0],[3,1],[3,2]]), [0,1,2,3])
+        self.assertEqual(func(1, []), [0])
+        func = Solution2().findOrder
+        self.assertEqual(func(2, [[1,0]]), [0,1])
+        self.assertEqual(func(4, [[1,0],[2,0],[3,1],[3,2]]), [0,1,2,3])
+        self.assertEqual(func(1, []), [0])
 
 
 if __name__ == '__main__':
