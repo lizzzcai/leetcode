@@ -34,7 +34,7 @@ You may assume that there are no duplicate edges in the input prerequisites.
 
 from typing import List
 # Solution 1 - BFS
-class Solution:
+class Solution1:
     '''
     BFS
     '''
@@ -75,6 +75,56 @@ class Solution:
                 return False
         return True
 
+
+# Solution 2 - DFS
+from collections import defaultdict
+class Solution2:
+    '''
+    The time efficiency is O(V^2+VE), because each dfs in adjacency list is O(V+E) and we do it V times .
+    for i in xrange(numCourses): O(V) . * dfs() O(V+E)
+    Space efficiency is O(E).
+    '''
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        # init graph and visited
+        graph = defaultdict(list)
+        visited = [0 for _ in range(numCourses)]
+        # create the graph
+        for pair in prerequisites:
+            course, prerequisite = pair
+            graph[course].append(prerequisite)
+        
+        # start to visit each node
+        for course in range(numCourses):
+            if not self.dfs(graph, visited, course):
+                return False
+        return True
+    
+    def dfs(self, graph, visited, i):
+        '''
+        if node v has not been visited, then mark it as 0.
+        if node v is being visited, then mark it as -1. If we find a vertex marked as -1 in DFS, then their is a ring.
+        if node v has been visited, then mark it as 1. If a vertex was marked as 1, then no ring contains v or its successors.
+        
+        '''
+        # if the node was marked as being visited, then a cycle is found
+        if visited[i] == -1:
+            return False
+        # if it is done visted, then do not visit again
+        if visited[i] == 1:
+            return True
+        # mark the node as being visited
+        visited[i] = -1
+        # visit all the neighours
+        for j in graph[i]:
+            if not self.dfs(graph, visited, j):
+                return False
+        
+        # after visit all the neighbours, mark it as done visited
+        visited[i] = 1
+        
+        return True
+            
+
 # Unit Test
 import unittest
 class canFinishCase(unittest.TestCase):
@@ -85,7 +135,11 @@ class canFinishCase(unittest.TestCase):
         pass
 
     def test_canFinishCase(self):
-        func = Solution().canFinish
+        func = Solution1().canFinish
+        self.assertEqual(func(2, [[1,0]]), True)
+        self.assertEqual(func(2, [[1,0], [0,1]]), False)
+
+        func = Solution2().canFinish
         self.assertEqual(func(2, [[1,0]]), True)
         self.assertEqual(func(2, [[1,0], [0,1]]), False)
 
