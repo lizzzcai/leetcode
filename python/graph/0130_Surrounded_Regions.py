@@ -97,7 +97,7 @@ class Solution0:
 class Solution1:
 
     '''
-    recursion
+    recursion, dfs
     '''
     def solve(self, board: List[List[str]]) -> None:
         """
@@ -112,12 +112,12 @@ class Solution1:
         # start from the boarder and replace all O to N
         # put all the boarder value into queue.
         for r in range(R):
-            self.bfs(board, r, 0, R, C)
-            self.bfs(board, r, C-1, R, C)
+            self.dfs(board, r, 0, R, C)
+            self.dfs(board, r, C-1, R, C)
 
         for c in range(C):
-            self.bfs(board, 0, c, R, C)
-            self.bfs(board, R-1, c, R, C)
+            self.dfs(board, 0, c, R, C)
+            self.dfs(board, R-1, c, R, C)
 
         # replace all the O to X, then replace all the N to O
         for r in range(R):
@@ -129,13 +129,13 @@ class Solution1:
         
         return board
                     
-    def bfs(self, board, r, c, R, C):
+    def dfs(self, board, r, c, R, C):
         if 0<=r<R and 0<=c<C and board[r][c] == "O":
             board[r][c] = "N"
-            self.bfs(board, r, c+1, R, C)
-            self.bfs(board, r, c-1, R, C)            
-            self.bfs(board, r-1, c, R, C)            
-            self.bfs(board, r+1, c, R, C)   
+            self.dfs(board, r, c+1, R, C)
+            self.dfs(board, r, c-1, R, C)            
+            self.dfs(board, r-1, c, R, C)            
+            self.dfs(board, r+1, c, R, C)   
     
     
 
