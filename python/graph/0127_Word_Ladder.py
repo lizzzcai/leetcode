@@ -42,6 +42,31 @@ Explanation: The endWord "cog" is not in wordList, therefore no possible transfo
 from typing import List
 import collections
 
+
+class Solution0:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        arr = set(wordList)
+        if endWord not in arr or not endWord or not beginWord or not arr:
+            return 0
+        
+        L = len(beginWord)
+        q = collections.deque([(beginWord, 1)])
+        visited = set()
+        alpha = string.ascii_lowercase  #'abcd...z'
+        while q:
+            curr_word, level = q.popleft()
+            if curr_word == endWord:
+                return level
+            
+            for i in range(L):
+                for ch in alpha:
+                    new_word = curr_word[:i] + ch + curr_word[i+1:]
+                    if new_word in arr and new_word not in visited:
+                        q.append((new_word, level+1))
+                        visited.add(new_word)
+        
+        return 0
+
 class Solution1:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
         '''
@@ -77,7 +102,7 @@ class Solution1:
         L = len(beginWord)
         
         # Dict to hold combination of words that can be formed,
-        # from any given word, by chaning one letter at a time.
+        # from any given word, by changing one letter at a time.
         all_combo_dict = collections.defaultdict(list)
         for word in wordList:
             for i in range(L):
@@ -140,7 +165,7 @@ class Solution2:
         self.length = len(beginWord)
         
         # Dict to hold combination of words that can be formed,
-        # from any given word, by chaning one letter at a time.
+        # from any given word, by changing one letter at a time.
         self.all_combo_dict = collections.defaultdict(list)
         for word in wordList:
             for i in range(self.length):
@@ -172,23 +197,23 @@ class Solution2:
     
     def visitWordNode(self, queue, visited, other_visited):
         
-            curr_word, level = queue.popleft()
-            for i in range(self.length):
-                itermediate_word = curr_word[:i] + '*' + curr_word[i+1:]
-                if itermediate_word in visited:
-                    continue
-                # get all the words which share the same itermediate word
-                for word in self.all_combo_dict[itermediate_word]:
-                    # if the word has already been visited from the other parallel traversal, this means we have found the answer.
-                    if word in other_visited:
-                        return level+other_visited[word]
-                    # if word not visited, add it to the queue and mark as visited
-                    if word not in visited:
-                        visited[word] = level+1
-                        queue.append((word, level+1))
-                visited[itermediate_word] = True
-        
-            return None
+        curr_word, level = queue.popleft()
+        for i in range(self.length):
+            itermediate_word = curr_word[:i] + '*' + curr_word[i+1:]
+            if itermediate_word in visited:
+                continue
+            # get all the words which share the same itermediate word
+            for word in self.all_combo_dict[itermediate_word]:
+                # if the word has already been visited from the other parallel traversal, this means we have found the answer.
+                if word in other_visited:
+                    return level+other_visited[word]
+                # if word not visited, add it to the queue and mark as visited
+                if word not in visited:
+                    visited[word] = level+1
+                    queue.append((word, level+1))
+            visited[itermediate_word] = True
+    
+        return None
 
 # Unit Test
 import unittest
@@ -200,6 +225,11 @@ class ladderLengthCase(unittest.TestCase):
         pass
 
     def test_ladderLengthCase(self):
+
+        func = Solution0().ladderLength
+        self.assertEqual(func("hit", "cog", ["hot","dot","dog","lot","log","cog"]), 5)
+        self.assertEqual(func("hit", "cog", ["hot","dot","dog","lot","log"]), 0)
+
         func = Solution1().ladderLength
         self.assertEqual(func("hit", "cog", ["hot","dot","dog","lot","log","cog"]), 5)
         self.assertEqual(func("hit", "cog", ["hot","dot","dog","lot","log"]), 0)
