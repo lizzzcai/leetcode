@@ -46,8 +46,8 @@ class TreeNode:
         self.left = None
         self.right = None
 
-# Recursion
-class Solution:
+# Recursion, # node compare
+class Solution1:
     '''
     https://leetcode.com/problems/subtree-of-another-tree/discuss/102724/Java-Solution-tree-traversal
     Time: O(m*n)
@@ -74,8 +74,27 @@ class Solution:
                     self.is_same_tree(p.right, q.right)
         else:
             return False
-            
+
+# https://leetcode.com/problems/subtree-of-another-tree/discuss/386209/Python-98-speed-with-comments 
+class Solution2:
+    def isSubtree(self, s: TreeNode, t: TreeNode) -> bool:
+        '''
+        Time: O(n+m+mn) worse case
+        it would be O(m) and O(n) for the string generations and O(m*n)
+        SpaceL O(m+n)
+        '''
+        # preorder
+        def traverse_tree(node):
+            '''
+            You use it as a delimiter between the nodes in the string representation.
+            The reason why is because take a test case of [12], [1]. So we have our s node with val=12 and no children, and t node with val=2 and no children. If we turn them to string without the #, we get the following s=12 None None and t='2 None None'. This will cause a false positive for us. If we add a # to the beginning of every node with a value, we get s=#12 None None and t=#2 None None. Now t is no longer a substring of s and doesn't create a false positive anymore.
+            '''
+            if node:
+                return f"#{node.val} {traverse_tree(node.left)} {traverse_tree(node.right)}"
+            else:
+                return "_"
         
+        return traverse_tree(t) in traverse_tree(s)
 
 
 # Unit Test
