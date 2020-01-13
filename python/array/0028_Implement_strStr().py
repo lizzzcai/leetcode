@@ -25,9 +25,9 @@ For the purpose of this problem, we will return 0 when needle is an empty string
 '''
 
 # Solution
-class Solution:
+class Solution1:
     '''
-    Time complexity : O(n)
+    Time complexity : O(n), O(mn) if comapre char by char
     Space complexity : O(1)
     '''
     def strStr(self, haystack: 'str', needle: 'str') -> 'int':
@@ -37,6 +37,36 @@ class Solution:
         for i in range(len(haystack) - l + 1):
             if haystack[i:i+l] == needle:
                 return i
+        return -1
+
+# Solution rabin Karp
+'''
+Time: O(n)
+Space:O(1)
+'''
+class Solution2:
+    def strStr(self, haystack: str, needle: str) -> int:
+        # if needle is empty
+        if not needle:
+            return 0
+        
+        # check the first case
+        n = len(needle)
+        if haystack[:n] == needle:
+            return 0
+        
+        # get the hash of sliding windows
+        hash_needle = sum(ord(x) for x in needle)       
+        hash_window = sum(ord(x) for x in haystack[:n])
+
+        # iterate and check the haystack[i+1, i+1+n]
+        for i in range(0, len(haystack)-n):
+            hash_window -= ord(haystack[i])
+            hash_window += ord(haystack[i+n])
+            if hash_window == hash_needle:
+                if haystack[i+1:i+n+1] == needle:
+                    return i+1
+                
         return -1
 
 # Unit Test
