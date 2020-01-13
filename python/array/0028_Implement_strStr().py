@@ -79,7 +79,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        func = Solution().strStr
+        func = Solution2().strStr
         self.assertEqual(func("hello", "ll"), 2)
         self.assertEqual(func("aaaaa", "bba"), -1)
         self.assertEqual(func("aaaaa", ""), 0)
