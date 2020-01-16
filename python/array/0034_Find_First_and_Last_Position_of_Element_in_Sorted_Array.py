@@ -1,7 +1,7 @@
 '''
-25/12/2018
+16/01/2019
 
-Tag: Binary Search
+Tag: Binary Search, Array
 
 34. Find First and Last Position of Element in Sorted Array - Medium
 
@@ -22,6 +22,9 @@ Output: [-1,-1]
 
 
 '''
+
+from typing import List
+
 class Solution:
     '''
     Time Complexity: O(logn). 
@@ -75,6 +78,61 @@ class Solution:
                 right = mid - 1
         return right
 
+
+class Solution1:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+    
+        left = self.find_left(nums, target)
+        right = self.find_right(nums, target)
+        
+        if left <= right:
+            return [left, right]
+        else:
+            return [-1, -1]
+    
+    def find_left(self, nums, target):
+        l, r = 0, len(nums)-1
+
+        while l <= r:
+            mid = (l+r) // 2
+            if nums[mid] < target:
+                l = mid + 1
+            else:
+                r = mid - 1
+        
+        return l
+    
+    def find_right(self, nums, target):
+        l, r = 0, len(nums)-1
+        
+        while l <= r:
+            mid = (l+r) // 2
+            if nums[mid] <= target:
+                l = mid + 1
+            else:
+                r = mid - 1
+                
+        return r
+
+class Solution2:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        left, right = -1, -1
+        for i in range(len(nums)):
+            if nums[i] == target:
+                left = i
+                break
+        
+        if left == -1:
+            return [-1, -1]
+        
+        for i in range(len(nums)-1, -1, -1):
+            if nums[i] == target:
+                right = i
+                break
+        
+        return [left, right]
+            
+
 # Unit Test
 import unittest
 class SearchRangeCase(unittest.TestCase):
@@ -85,7 +143,7 @@ class SearchRangeCase(unittest.TestCase):
         pass
 
     def test_SearchRange(self):
-        func = Solution().searchRange
+        func = Solution1().searchRange
         self.assertEqual(func([5,7,7,8,8,10], 8), [3,4])
         self.assertEqual(func([5,7,7,8,8,10], 6), [-1,-1])
         self.assertEqual(func([1], 6), [-1,-1])
