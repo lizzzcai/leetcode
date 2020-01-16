@@ -41,18 +41,19 @@ class Solution:
     Space complexity : O(1) 
     '''
     def validPalindrome(self, s: 'str') -> 'bool':
-        def is_pali_range(i, j):
+        def is_palindrome(i, j):
             while i < j:
                 if s[i] != s[j]:
                     return False
                 i += 1
                 j -= 1
             return True
-            
-        for i in range(len(s) // 2):
-            j = len(s) - 1 - i
+        
+        length = len(s)
+        for i in range(length // 2):
+            j = length - 1 - i
             if s[i] != s[j]:
-                return is_pali_range(i+1, j) or is_pali_range(i, j-1)
+                return is_palindrome(i+1, j) or is_palindrome(i, j-1)
         return True
                 
         

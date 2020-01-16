@@ -1,5 +1,5 @@
 '''
-08/02/2019
+16/01/2020
 
 125. Valid Palindrome - Easy
 
@@ -46,7 +46,18 @@ class Solution:
         return True
                 
         
+class Solution1:
+    def isPalindrome(self, s: str) -> bool:
+        strs = [ch.lower() for ch in s if ch.isalnum()]
         
+        i, j = 0, len(strs) - 1
+        while i < j:
+            if strs[i] != strs[j]:
+                return False
+            i += 1
+            j -= 1
+            
+        return True
         
 
 # Unit Test
