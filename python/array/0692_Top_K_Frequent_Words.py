@@ -29,21 +29,40 @@ Try to solve it in O(n log k) time and O(n) extra space.
 
 from typing import List
 # Solution
-class Solution:
-    '''
-    Time complexity : O(n)
-    Space complexity : O(n)
-    '''
+class Solution1:
     def topKFrequent(self, words: List[str], k: int) -> List[str]:
-        # dict to get the frequency of each word
+        '''
+        Sorting
+        
+        Time: O(nlogn)
+        Space: O(n)
+        
+        '''
         count = dict()
         for w in words:
             count[w] = count.setdefault(w, 0) + 1
-        # get the key of the word by order of frequency
-        sorted_keys = [k for k, v in count.items()]
-        # sort it by frequency order and alphabetical order
+        sorted_keys = [k for k in count.keys()]
         sorted_keys.sort(key= lambda w:(-count[w], w))
         return sorted_keys[:k]
+
+from heapq import heapify, heappop
+class Solution2:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]:
+        '''
+        Heap
+        
+        Time: O(N+klog(N)). heapify and counting are O(N), each of k heappop are O(logN)
+        Space: O(N)
+        
+        '''
+        count = dict()
+        for w in words:
+            count[w] = count.setdefault(w, 0) + 1
+        # mini heap in python
+        heap = [(-v, k) for k, v in count.items()]
+        heapify(heap)
+        return [heappop(heap)[1] for _ in range(k)]
+
 
 # Unit Test
 import unittest
@@ -55,7 +74,12 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        func = Solution().topKFrequent
+        func = Solution1().topKFrequent
+        self.assertEqual(func(["i", "love", "leetcode", "i", "love", "coding"], 2), ["i","love"])
+        self.assertEqual(func(["i", "love", "leetcode", "i", "love", "coding"], 3), ["i","love","coding"])
+        self.assertEqual(func(["the", "day", "is", "sunny", "the", "the", "the", "sunny", "is", "is"], 4), ["the", "is", "sunny", "day"])
+
+        func = Solution2().topKFrequent
         self.assertEqual(func(["i", "love", "leetcode", "i", "love", "coding"], 2), ["i","love"])
         self.assertEqual(func(["i", "love", "leetcode", "i", "love", "coding"], 3), ["i","love","coding"])
         self.assertEqual(func(["the", "day", "is", "sunny", "the", "the", "the", "sunny", "is", "is"], 4), ["the", "is", "sunny", "day"])
