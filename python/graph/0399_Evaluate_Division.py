@@ -28,7 +28,7 @@ The input is always valid. You may assume that evaluating the queries will resul
 
 from typing import List
 # Solution
-class Solution:
+class Solution1:
     '''
     Time complexity : O(n)
     Space complexity : O(n)
@@ -42,8 +42,9 @@ class Solution:
             graph.setdefault(numerator, {numerator : 1.0})
             graph.setdefault(denominator, {denominator : 1.0})
             # a / b, b / a
-            graph[numerator][denominator] = values[idx]
-            graph[denominator][numerator] = 1. / values[idx]
+            value = values[idx]
+            graph[numerator][denominator] = value
+            graph[denominator][numerator] = 1. / value
             
         res = []
         for query in queries:
@@ -71,6 +72,48 @@ class Solution:
                         return src_node[connection] * val
         return None
 
+from collections import deque
+class Solution2:
+    '''
+    Time complexity : O(n)
+    Space complexity : O(n)
+    '''
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        graph = dict()
+        for idx, equation in enumerate(equations):
+            numerator, denominator = equation[0], equation[1]
+            # add into graph
+            # a / a = 1, b / b = 1
+            graph.setdefault(numerator, {numerator : 1.0})
+            graph.setdefault(denominator, {denominator : 1.0})
+            value = values[idx]
+            # a / b, b / a
+            graph[numerator][denominator] = value
+            graph[denominator][numerator] = 1. / value
+            
+        res = []
+        for query in queries:
+            val = self.bfs(graph, query[0], query[1])
+            res.append(val)
+        return res
+    
+    def bfs(self, graph, src, dst):
+        if src not in graph or dst not in graph:
+            return -1.0
+        q = deque([(src, 1.0)])
+        visited = set()
+
+        while q:
+            front, curr_product = q.popleft()
+            if front == dst:
+                return curr_product
+            visited.add(front)
+            for neighbor, val in graph[front].items():
+                if neighbor not in visited:
+                    q.append((neighbor, curr_product * val))
+        
+        return -1.0
+
 # Unit Test
 import unittest
 class TestCase(unittest.TestCase):
@@ -78,10 +121,13 @@ class TestCase(unittest.TestCase):
         pass
 
     def tearDown(self):
-        pass
+            pass
 
     def test_testCase(self):
-        func = Solution().calcEquation
+        func = Solution1().calcEquation
+        self.assertEqual(func([["a","b"],["b","c"]], [2.0,3.0], [["a","c"],["b","a"],["a","e"],["a","a"],["x","x"]]), [6.00000,0.50000,-1.00000,1.00000,-1.00000])
+       
+        func = Solution2().calcEquation
         self.assertEqual(func([["a","b"],["b","c"]], [2.0,3.0], [["a","c"],["b","a"],["a","e"],["a","a"],["x","x"]]), [6.00000,0.50000,-1.00000,1.00000,-1.00000])
 
 if __name__ == '__main__':
