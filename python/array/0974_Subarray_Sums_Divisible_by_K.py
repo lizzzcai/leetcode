@@ -3,7 +3,7 @@
 
 974. Subarray Sums Divisible by K - Medium
 
-Tag: 
+Tag: Array, Hash Table, Prefix Sum
 
 Given an array A of integers, return the number of (contiguous, non-empty) subarrays that have a sum divisible by K.
 
