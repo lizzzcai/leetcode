@@ -63,7 +63,7 @@ class Solution3:
         '''
         hash map
         https://leetcode.com/problems/subarray-sum-equals-k/discuss/341399/Python-clear-explanation-with-code-and-example
-        
+
         time: O(n)
         space: O(n)
         
@@ -92,7 +92,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        func = Solution().subarraySum
+        func = Solution3().subarraySum
         self.assertEqual(func([1, 1, 1], 2), 2)
         self.assertEqual(func([1,1,1,4,32, 5, 3, 2, 1, 3, 2, 1, 1, 2, 0 ,0 ,1 ,1], 2), 11)
 
