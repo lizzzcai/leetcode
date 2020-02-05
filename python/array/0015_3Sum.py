@@ -32,6 +32,8 @@ class Solution:
     '''
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         n = len(nums)
+        if n < 3:
+            return []
         nums.sort()
         res = []
         
@@ -45,6 +47,7 @@ class Solution:
                 sum_ = nums[i] + nums[l] + nums[r]
                 if sum_== 0:
                     res.append([nums[i], nums[l], nums[r]])
+                    # skip the duplicates
                     while l < r and nums[l] == nums[l+1]:
                         l += 1
                     while l < r and nums[r-1] == nums[r]:
@@ -72,6 +75,7 @@ class TestCase(unittest.TestCase):
     def test_testCase(self):
         func = Solution().threeSum
         self.assertEqual(func([-1, 0, 1, 2, -1, -4]), [[-1,-1,2],[-1,0,1]])
+        self.assertEqual(func([-1, 0]), [])
 
 if __name__ == '__main__':
     unittest.main()
