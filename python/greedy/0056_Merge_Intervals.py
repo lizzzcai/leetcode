@@ -50,7 +50,7 @@ class Solution:
 
 # Unit Test
 import unittest
-class addTwoNumbersCase(unittest.TestCase):
+class mergeCase(unittest.TestCase):
     def setUp(self):
         pass
 
