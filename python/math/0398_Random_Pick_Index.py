@@ -27,7 +27,10 @@ from typing import List
 # Solution
 from random import randrange
 class Solution:
-
+    '''
+    Reservoir Sampling Prove 
+    https://www.youtube.com/watch?v=Ybra0uGEkpM
+    '''
     def __init__(self, nums: List[int]):
         self.arr = nums
         

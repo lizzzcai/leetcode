@@ -46,6 +46,9 @@ class Solution:
         Returns a random node's value.
         """
         '''
+        Revervoir Sampling Prove:
+        https://www.youtube.com/watch?v=Ybra0uGEkpM 
+
         https://leetcode.com/problems/linked-list-random-node/discuss/85659/Brief-explanation-for-Reservoir-Sampling
           1/i * (1 - 1/(i+1)) * (1 - 1/(i+2)) * ... * (1 - 1/n)
         = 1/i * i/(i+1) * (i+1)/(i+2) * ... * (n-1)/n
