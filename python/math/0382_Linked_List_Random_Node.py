@@ -47,7 +47,8 @@ class Solution:
         """
         '''
         Revervoir Sampling Prove:
-        https://www.youtube.com/watch?v=Ybra0uGEkpM 
+        https://www.youtube.com/watch?v=Ybra0uGEkpM
+        https://www.cnblogs.com/python27/p/Reservoir_Sampling_Algorithm.html 
 
         https://leetcode.com/problems/linked-list-random-node/discuss/85659/Brief-explanation-for-Reservoir-Sampling
           1/i * (1 - 1/(i+1)) * (1 - 1/(i+2)) * ... * (1 - 1/n)

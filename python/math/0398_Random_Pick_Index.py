@@ -30,6 +30,7 @@ class Solution:
     '''
     Reservoir Sampling Prove 
     https://www.youtube.com/watch?v=Ybra0uGEkpM
+    https://www.cnblogs.com/python27/p/Reservoir_Sampling_Algorithm.html
     '''
     def __init__(self, nums: List[int]):
         self.arr = nums
