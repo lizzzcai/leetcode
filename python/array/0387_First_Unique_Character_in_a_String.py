@@ -19,7 +19,7 @@ Note: You may assume the string contain only lowercase letters.
 '''
 
 # Solution
-class Solution:
+class Solution1:
     '''
     Time complexity : O(n), since we go through the string of length N two times
     Space complexity : O(n), since we have to keep a hash map with N elements.
@@ -30,18 +30,30 @@ class Solution:
         # count = collections.Counter(s)
         count = {}
         for char in s:
-            if char in count:
-                count[char] += 1
-            else:
-                count[char] = 1
-        idx = 0
-        for char in s:
+            count[char] = count.setdefault(char, 0) + 1
+
+        for idx, char in enumerate(s):
             if count[char] == 1:
                 return idx
-            else:
-                idx += 1
         
         return -1
+
+
+class Solution:
+    def firstUniqChar(self, s: 'str') -> 'int':
+        
+        # build hash map : character and how often it appears
+        # count = collections.Counter(s)
+        count = {}
+        for char in s:
+            count[char] = count.setdefault(char, 0) + 1
+
+        for idx, char in enumerate(s):
+            if count[char] == 1:
+                return idx
+        
+        return -1
+        
 
 # Unit Test
 import unittest
