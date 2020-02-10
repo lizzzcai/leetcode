@@ -29,7 +29,35 @@ Output: 10
 
 from typing import List
 # Solution
+
 class Solution1:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        if not heights:
+            return 0
+        n = len(heights)
+        max_area = 0
+        stack = []
+        for i in range(n):
+            while stack and heights[i] < heights[stack[-1]]:
+                h = heights[stack.pop()]
+                if stack:
+                    w = i - stack[-1] - 1
+                else:
+                    w = i
+                max_area = max(max_area, h*w)
+            stack.append(i)
+        
+        while stack:
+            h = heights[stack.pop()]
+            if stack:
+                w = n - stack[-1] - 1
+            else:
+                w = n
+            max_area = max(max_area, h*w)
+        
+        return max_area
+
+class Solution2:
     def largestRectangleArea(self, heights: List[int]) -> int:
         
         '''
@@ -47,7 +75,8 @@ class Solution1:
         return res
 
 
-class Solution2:
+
+class Solution3:
     def largestRectangleArea(self, heights: List[int]) -> int:
         '''
         https://leetcode.com/problems/largest-rectangle-in-histogram/discuss/28902/5ms-O(n)-Java-solution-explained-(beats-96)
@@ -100,7 +129,8 @@ class TestCase(unittest.TestCase):
         self.assertEqual(func([2,1,5,6,2,3]), 10)
         func = Solution2().largestRectangleArea
         self.assertEqual(func([2,1,5,6,2,3]), 10)
-
+        func = Solution3().largestRectangleArea
+        self.assertEqual(func([2,1,5,6,2,3]), 10)
 
 if __name__ == '__main__':
     unittest.main()
