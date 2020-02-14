@@ -24,7 +24,7 @@ class ListNode:
         self.val = x
         self.next = None
 
-class Solution:
+class Solution0:
     def deleteDuplicates(self, head: ListNode) -> ListNode:
 
         curr, prev = head, head
@@ -36,6 +36,22 @@ class Solution:
             curr = curr.next
         
         return head
+
+class Solution:
+    def deleteDuplicates(self, head: ListNode) -> ListNode:
+        '''
+        Time: O(n)
+        Space: O(1)
+        '''
+        p = head
+        while p and p.next:
+            if p.next.val == p.val:
+                p.next = p.next.next
+            else:
+                p = p.next
+        
+        return head
+        
 
 # Unit Test
 import unittest
