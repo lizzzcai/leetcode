@@ -50,6 +50,32 @@ class TestCase(unittest.TestCase):
         func = Solution().deleteDuplicates
         head = ListNode(1)
         self.assertEqual(func(head), head)
+        self.assertEqual(func(None), None)
+
+        n1 = ListNode(1)
+        n2 = ListNode(1)
+        n3 = ListNode(2)
+        n4 = ListNode(3)
+        n5 = ListNode(3)
+        n1.next = n2
+        n2.next = n3
+        n4.next = n4
+        head = n1
+        src = []
+        while n1:
+            src.append(n1.val)
+            n1 = n1.next
+        res = func(head)
+        dst = []
+        while res:
+            dst.append(res.val)
+            res = res.next
+        
+        self.assertEqual(src, dst)
+        
+        
+        
+        
 
 if __name__ == '__main__':
     unittest.main()
