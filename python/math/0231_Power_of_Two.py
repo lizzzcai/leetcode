@@ -78,7 +78,7 @@ class Solution3:
 
 class Solution4:
     def isPowerOfTwo(self, n: int) -> bool:
-        # 2Very intuitive. If n is the power of 2, the bit count of n is 1.
+        # Very intuitive. If n is the power of 2, the bit count of n is 1.
         return n > 0 and bin(n).count("1") == 1
 
 # Unit Test
