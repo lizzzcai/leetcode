@@ -72,7 +72,12 @@ class Node:
         self.val = val
         self.neighbors = neighbors
 
-class Solution:
+class Solution1:
+    '''
+    DFS
+    Time: O(n)
+    Space: O(n)
+    '''
     def cloneGraph(self, node: 'Node') -> 'Node':
         lookup = {None:None}
         def dfs(node):
@@ -84,6 +89,29 @@ class Solution:
         
         return dfs(node)
 
+class Solution2:
+    '''
+    BFS
+    
+    '''
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        lookup = {None:None}
+        stack = [node]
+        while stack:
+            curr_node = stack.pop()
+            if curr_node not in lookup:
+                lookup[curr_node] = Node(curr_node.val)
+            if curr_node:
+                for neighbor_node in curr_node.neighbors:
+                    if neighbor_node not in lookup:
+                        lookup[neighbor_node] = Node(neighbor_node.val)
+                        lookup[curr_node].neighbors.append(lookup[neighbor_node])
+                        stack.append(neighbor_node)
+                    else:
+                        lookup[curr_node].neighbors.append(lookup[neighbor_node])
+
+        return lookup[node]
+
 # Unit Test
 import unittest
 class TestCase(unittest.TestCase):
@@ -94,7 +122,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        func = Solution().cloneGraph
+        func = Solution1().cloneGraph
         self.assertEqual(func([[2],[1]]), [[2],[1]])
 
 if __name__ == '__main__':
