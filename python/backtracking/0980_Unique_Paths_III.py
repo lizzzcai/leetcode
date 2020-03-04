@@ -95,6 +95,56 @@ class Solution:
         
         return self.res
 
+
+class Solution1:
+    def uniquePathsIII(self, grid: List[List[int]]) -> int:
+        '''
+        Time: O(4^(R*C))
+        Space: O(1)
+        
+        '''
+        def dfs(r, c, step):
+            if r < 0 or r > rows-1 or c < 0 or c > cols-1 or grid[r][c] == -1 or step < 0:
+                return 0
+
+            if grid[r][c] == 2:
+                if step == 0:
+                    return 1
+                return 0
+            
+            res = 0
+            # set the current grid to -1 to block it
+            grid[r][c] = -1
+            for d in directs:
+                res += dfs(r+d[0], c+d[1], step-1)
+            # set the current grid to 0 to unblock it
+            grid[r][c] = 0
+            
+            return res
+        
+        
+        start_r, start_c = 0, 0
+        steps = 0
+        rows = len(grid)
+        cols = len(grid[0])
+        
+        # 4 direction walks
+        directs = [(1,0), (-1,0), (0,1), (0,-1)]
+        
+        # find the start point and number of empty squares
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == 1:
+                    start_r, start_c = r, c
+                elif grid[r][c] == 0:
+                    steps += 1
+        #add one as last step is to the end square.
+        steps += 1
+        # number of walks
+        ans = dfs(start_r, start_c, steps)
+        
+        return ans
+
 # Unit Test
 import unittest
 class TestCase(unittest.TestCase):
