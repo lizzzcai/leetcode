@@ -1,5 +1,5 @@
 '''
-20/02/2020
+20/03/2020
 
 1. Two Sum - Easy
 
@@ -61,7 +61,7 @@ class TestCase(unittest.TestCase):
 
     def test_testCase(self):
         for Sol in [Solution()]:
-            func = Solution().twoSum
+            func = Sol.twoSum
             self.assertEqual(func([2, 7, 11, 15], 9), [0, 1])
 
 if __name__ == '__main__':
