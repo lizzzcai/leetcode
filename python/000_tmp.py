@@ -60,8 +60,9 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        func = Solution().twoSum
-        self.assertEqual(func([2, 7, 11, 15], 9), [0, 1])
+        for Sol in [Solution()]:
+            func = Solution().twoSum
+            self.assertEqual(func([2, 7, 11, 15], 9), [0, 1])
 
 if __name__ == '__main__':
     unittest.main()
