@@ -20,7 +20,7 @@ return [0, 1].
 
 from typing import List
 # Solution
-class Solution:
+class Solution1:
     '''
     Time complexity : O(n)
     Space complexity : O(n)
@@ -60,7 +60,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [Solution()]:
+        for Sol in [Solution1()]:
             func = Sol.twoSum
             self.assertEqual(func([2, 7, 11, 15], 9), [0, 1])
 
