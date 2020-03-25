@@ -27,6 +27,7 @@ from typing import List
 class Solution1:
     def permute(self, nums: List[int]) -> List[List[int]]:
         '''
+        https://en.wikipedia.org/wiki/Permutation#k-permutations_of_n
         Time: O(N!)
         '''
         def backtrack(nums, track):
@@ -47,6 +48,7 @@ class Solution1:
 class Solution2:
     def permute(self, nums: List[int]) -> List[List[int]]:
         '''
+        Backtracking
         https://blog.csdn.net/zxzxzx0119/article/details/81452269
         Time: O(N!)
         '''
@@ -67,6 +69,10 @@ class Solution2:
         res = []
         backtrack(nums, 0)
         return res
+
+
+
+
 
 # Unit Test
 import unittest

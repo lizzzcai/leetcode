@@ -51,7 +51,12 @@ class Solution1:
 
 class Solution2:
     def subsets(self, nums: List[int]) -> List[List[int]]:
-        
+        '''
+        backtracking
+
+        TIME: O(N X 2^N)
+        SPACE: O(N X 2^N)
+        '''
         def backtrack(curr, n, track):
             
             res.append(track.copy())
@@ -67,6 +72,23 @@ class Solution2:
         n = len(nums)
         res = []
         backtrack(0, n, [])
+        
+        return res
+
+
+class Solution3:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        '''
+        Recursion
+
+        TIME: O(N X 2^N)
+        SPACE: O(N X 2^N)
+        
+        '''
+        n = len(nums)
+        res = [[]]
+        for num in nums:
+            res += [curr + [num] for curr in res]
         
         return res
 
