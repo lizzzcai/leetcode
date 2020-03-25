@@ -102,6 +102,20 @@ class Solution3:
         res = [count[num] for num in nums]
         return res
         
+class Solution4:
+    def smallerNumbersThanCurrent(self, nums: List[int]) -> List[int]:
+        
+        res = []
+        sorted_nums = sorted(nums)
+        hmap = {}
+        for idx, num in enumerate(sorted_nums):
+            if num not in hmap:
+                hmap[num] = idx
+        
+        for num in nums:
+            res.append(hmap[num])
+            
+        return res
 
 # Unit Test
 import unittest
@@ -113,7 +127,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [Solution1(), Solution2(), Solution3()]:
+        for Sol in [Solution1(), Solution2(), Solution3(), Solution4()]:
             func = Sol.smallerNumbersThanCurrent
             self.assertEqual(func([8,1,2,2,3]), [4,0,1,1,3])
             self.assertEqual(func([6,5,4,8]), [2,1,0,3])
