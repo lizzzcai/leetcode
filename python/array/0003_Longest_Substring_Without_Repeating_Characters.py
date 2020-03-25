@@ -1,5 +1,6 @@
 """
 19/12/2018
+25/03/2020
 
 Tag: Hash Table, Set, Array
 
@@ -56,7 +57,7 @@ class Solution1:
                 i += 1
         return ans
 
-class Solution:
+class Solution2:
     """
     Sliding Window Optimized
     
@@ -88,6 +89,23 @@ class Solution:
         return ans
 
 
+class Solution3:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        
+        max_len, start = 0, 0
+        used = {}
+        
+        for idx, char in enumerate(s):
+            if char in used and start <= used[char]:
+                start = used[char] + 1
+            else:
+                max_len = max(max_len, idx - start + 1)
+                
+            used[char] = idx
+            
+        return max_len
+        
+
 
 # Unit Test
 import unittest
@@ -99,10 +117,13 @@ class lengthOfLongestSubstringCase(unittest.TestCase):
         pass
 
     def test_lengthOfLongestSubstring(self):
-        func = Solution().lengthOfLongestSubstring
-        self.assertEqual(func("abcabcbb"), 3)
-        self.assertEqual(func("bbbbb"), 1)
-        self.assertEqual(func("pwwkew"), 3)
+
+        for Sol in [Solution1(), Solution2(), Solution3()]:
+            func = Sol.lengthOfLongestSubstring
+            self.assertEqual(func("abcabcbb"), 3)
+            self.assertEqual(func("bbbbb"), 1)
+            self.assertEqual(func("pwwkew"), 3)
+
 
 if __name__ == '__main__':
     unittest.main()

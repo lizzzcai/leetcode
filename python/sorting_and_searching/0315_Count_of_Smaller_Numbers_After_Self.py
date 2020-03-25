@@ -20,7 +20,7 @@ To the right of 1 there is 0 smaller element.
 '''
 
 from typing import List
-# SDivide and Conquer olution
+# Divide and Conquer Solution
 class Solution1:
     def countSmaller(self, nums: List[int]) -> List[int]:
         '''
@@ -33,11 +33,11 @@ class Solution1:
 
         def divide(tuple_nums):
             mid = len(tuple_nums) // 2
-            if mid: # len(tuple_nums) > 1
+            if mid: # len(tuple_nums) > 1, mid > 0
                 left = divide(tuple_nums[:mid])
                 right = divide(tuple_nums[mid:])
                 return conquer(left, right)
-            else: # len(tuple_nums) == 1
+            else: # if len(tuple_nums) == 1, mid = 0
                 return tuple_nums
 
         def conquer(left, right):
