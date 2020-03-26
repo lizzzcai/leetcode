@@ -36,6 +36,7 @@ from typing import List
 class Solution1:
     def solveNQueens(self, n: int) -> List[List[str]]:
         
+        # if can put queen in board[row][col]
         def is_valid(board, row, col):
             # check upper
             i = row-1
@@ -66,7 +67,7 @@ class Solution1:
         def backtrack(board, row):
             # terminate if row reach the end
             if row == len(board):
-                res.append( [''.join(row) for row in board])
+                res.append([''.join(row) for row in board])
                 return
             
             for c in range(len(board[0])):
