@@ -86,7 +86,95 @@ class Solution1:
         return res
 
 
+class Solution2:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        '''
+        Time:O(N!)
+        Space: O(N)
+        
+        '''
+        def is_valid(board, row):
+            for i in range(row):
+                # check if queen in same colum or diagonal
+                if board[i] == board[row] or abs(board[i]-board[row]) == row-i:
+                    return False
+            return True
 
+    
+        def backtrack(board, row):
+            # terminate if row reach the end
+            if row == len(board):
+                tmp = "."*len(board)
+                res.append([tmp[:i]+"Q"+tmp[i+1:] for i in board])
+                return
+            
+            for col in range(len(board)):
+                # make selection, each col in ROW
+                board[row] = col
+                # if valid, no two queens attach each other
+                if is_valid(board, row):
+                    # go to next row
+                    backtrack(board, row + 1)
+
+            
+        board = [-1]*n
+        res = []
+        backtrack(board, 0)
+        return res
+
+
+class Solution3:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        '''
+        Time:O(N!)
+        Space: O(N)
+        
+        
+            diags (row_idx - col_idx):
+            3 |  3  2  1  0
+            2 |  2  1  0 -1
+            1 |  1  0 -1 -2
+            0 |  0 -1 -2 -3
+            r  ------------
+              c  0  1  2  3
+
+            off_diags (row_idx + col_idx):
+            3 |  3  4  5  6
+            2 |  2  3  4  5
+            1 |  1  2  3  4
+            0 |  0  1  2  3
+            r  ------------
+              c  0  1  2  3
+        '''
+        def backtrack(board, row):
+            # terminate if row reach the end
+            if row == len(board):
+                res.append([tmp[:i]+"Q"+tmp[i+1:] for i in board])
+                return
+            
+            for col in range(len(board)):
+                # make selection, each col in ROW
+                board[row] = col
+                # check if no two queens on the rows or diags
+                if col not in cols and row-col not in diags and row+col not in off_diags:
+                    # go to next row
+                    cols.append(col)
+                    diags.append(row-col)
+                    off_diags.append(row+col)
+                    backtrack(board, row + 1)
+                    cols.pop()
+                    diags.pop()
+                    off_diags.pop()
+
+            
+        board = [-1]*n
+        tmp = "."*len(board)
+        cols = []
+        diags = []
+        off_diags = []
+        res = []
+        backtrack(board, 0)
+        return res
 
 
 # Unit Test
@@ -99,7 +187,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [Solution1()]:
+        for Sol in [Solution1(), Solution2(), Solution3()]:
             func = Sol.solveNQueens
             out = [
                     [".Q..",

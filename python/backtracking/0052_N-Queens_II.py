@@ -78,8 +78,58 @@ class Solution1:
         res = backtrack(board, 0)
         return res
 
+class Solution2:
+    def totalNQueens(self, n: int) -> int:
+        
+        def is_valid(board, row):
+            # check if queen in same colum or diagonal
+            for i in range(row):
+                if board[i] == board[row] or abs(board[i]-board[row]) == row-i:
+                    return False
+                
+            return True
+    
+    
+        def backtrack(board, row):
+            if row == len(board):
+                return 1
+            
+            out = 0
+            for col in range(len(board)):
+                board[row] = col
+                if is_valid(board, row):
+                    out += backtrack(board, row+1)
+            return out
 
+        board = [-1]*n
+        res = backtrack(board, 0)
+        return res
+        
+        
+class Solution3:
+    def totalNQueens(self, n: int) -> int:
+        
+        def backtrack(n, row):
+            if row == n:
+                return 1
+            
+            out = 0
+            for col in range(n):
+                if col not in cols and row-col not in diags and row+col not in off_diags:
+                    cols.append(col)
+                    diags.append(row-col)
+                    off_diags.append(row+col)
+                    out += backtrack(n, row+1)
+                    cols.pop()
+                    diags.pop()
+                    off_diags.pop()
+            return out
 
+        cols = []
+        diags = []
+        off_diags = []
+        res = backtrack(n, 0)
+        return res
 
 # Unit Test
 import unittest
@@ -91,7 +141,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [Solution1()]:
+        for Sol in [Solution1(),Solution2(),Solution3()]:
             func = Sol.totalNQueens
             out = [
                     [".Q..",
