@@ -33,6 +33,8 @@ class Solution1:
     def solveSudoku(self, board: List[List[str]]) -> None:
         """
         Do not return anything, modify board in-place instead.
+
+        Time: O(9^m), m is the umber of blanks to e filled in
         """
         def is_valid(board, row, col, n):
             

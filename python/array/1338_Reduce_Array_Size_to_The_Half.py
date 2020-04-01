@@ -63,7 +63,21 @@ class Solution1:
             if remove >= n // 2:
                 return res
 
-
+import collections
+class Solution2:
+    def minSetSize(self, arr: List[int]) -> int:
+        n = len(arr)
+        count = collections.Counter(arr)
+        
+        curr_sum = 0
+        size = 0
+        for v, i in sorted([(f, n) for n, f in count.items()], reverse=True):
+            curr_sum += v
+            size += 1
+            if curr_sum >= n // 2:
+                break
+        
+        return size
 
 # Unit Test
 import unittest
@@ -75,7 +89,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [Solution1()]:
+        for Sol in [Solution1(), Solution2()]:
             func = Sol.minSetSize
             self.assertEqual(func([3,3,3,3,5,5,5,2,2,7]), 2)
             self.assertEqual(func([7,7,7,7,7,7]), 1)
