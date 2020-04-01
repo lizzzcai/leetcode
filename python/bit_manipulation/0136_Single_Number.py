@@ -1,5 +1,6 @@
 '''
 04/02/2019
+01/04/2020
 
 136. Single Number - Easy
 
@@ -22,7 +23,7 @@ Output: 4
 '''
 
 # Solution
-class Solution:
+class Solution1:
     '''
     Approach 4: Bit Manipulation
     Time complexity : O(n). We only iterate through nums, so the time complexity is the number of elements in nums.
@@ -47,8 +48,8 @@ class Solution:
         
         '''
 
-        for i in nums:
-            res ^= i
+        for num in nums:
+            res ^= num
         return res
 
 
@@ -74,11 +75,11 @@ class Solution2:
         :rtype: int
         """
         hashTable = set()
-        for i in nums:
-            if i in hashTable:
-                hashTable.remove(i)
+        for num in nums:
+            if num in hashTable:
+                hashTable.remove(num)
             else:
-                hashTable.add(i)
+                hashTable.add(num)
         return hashTable.pop()
 
 
@@ -93,9 +94,10 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        func = Solution().singleNumber
-        self.assertEqual(func([4,1,2,1,2]), 4)
-        self.assertEqual(func([2,1,2]), 1)
+        for Sol in [Solution1(),Solution2()]:
+            func = Sol.singleNumber
+            self.assertEqual(func([4,1,2,1,2]), 4)
+            self.assertEqual(func([2,1,2]), 1)
 
 if __name__ == '__main__':
     unittest.main()
