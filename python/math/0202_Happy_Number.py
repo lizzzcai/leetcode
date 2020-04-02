@@ -81,7 +81,8 @@ class TestCase(unittest.TestCase):
         for Sol in [Solution1(), Solution2(), Solution3()]:
             func = Sol.isHappy
             self.assertEqual(func(19), True)
-            self.assertEqual(func(7), False)
+            self.assertEqual(func(7), True)
+            self.assertEqual(func(11), False)
 
 
 if __name__ == '__main__':
