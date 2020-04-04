@@ -1,9 +1,10 @@
 '''
+04/04/2020
 05/02/2019
 
 283. Move Zeroes - Easy
 
-Tag: Array, two pointer
+Tag: Array, Two Pointers
 
 Given an array nums, write a function to move all 0's to the end of it while maintaining the relative order of the non-zero elements.
 
@@ -18,8 +19,9 @@ Minimize the total number of operations.
 
 '''
 
+from typing import List
 
-class Solution:
+class Solution1:
     '''
     Two pointer
 
@@ -45,7 +47,24 @@ class Solution:
                 lastNoneZero += 1
         
         return nums
-                   
+
+class Solution2:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        
+        i, j = 0, 0
+        n = len(nums)
+        while i < n and j < n:
+            if nums[j] != 0:
+                nums[i], nums[j] = nums[j], nums[i]
+                i+= 1
+            j += 1
+        
+        return nums
+        
+                         
 
 # Unit Test
 import unittest
@@ -57,10 +76,11 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        func = Solution().moveZeroes
-        self.assertEqual(func([0,1,0,3,12]), [1,3,12,0,0])
-        self.assertEqual(func([0,0,0,1]), [1,0,0,0])
-        self.assertEqual(func([1]), [1])
+        for Sol in [Solution1(), Solution2()]:
+            func = Sol.moveZeroes
+            self.assertEqual(func([0,1,0,3,12]), [1,3,12,0,0])
+            self.assertEqual(func([0,0,0,1]), [1,0,0,0])
+            self.assertEqual(func([1]), [1])
 
 
 

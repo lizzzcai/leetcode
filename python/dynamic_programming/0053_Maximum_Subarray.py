@@ -1,4 +1,5 @@
 '''
+03/04/2020
 26/12/2018
 
 Tag: Array, Dynamic Programing, Divide and Conquer
@@ -56,8 +57,8 @@ class Solution2:
         :type right: int
         :rtype: int
         """
-        if left > right:
-            return -2147483647
+        if left >= right:
+            return nums[left]
         
         # get the mid index
         mid = (left + right) // 2
@@ -99,6 +100,7 @@ class Solution2:
         """
         return self.DivideAndConquer(nums, 0, len(nums)-1)
 
+
 # Unit Test
 import unittest
 class maxSubArrayCase(unittest.TestCase):
@@ -109,15 +111,11 @@ class maxSubArrayCase(unittest.TestCase):
         pass
 
     def test_maxSubArray(self):
-        func = Solution1().maxSubArray
-        self.assertEqual(func([-2,1,-3,4,-1,2,1,-5,4]), 6)
-        self.assertEqual(func([1]), 1)
-        self.assertEqual(func([-1,-2]), -1)
-
-        func = Solution2().maxSubArray
-        self.assertEqual(func([-2,1,-3,4,-1,2,1,-5,4]), 6)
-        self.assertEqual(func([1]), 1)
-        self.assertEqual(func([-1,-2]), -1)
+        for Sol in [Solution1(), Solution2()]:
+            func = Sol.maxSubArray
+            self.assertEqual(func([-2,1,-3,4,-1,2,1,-5,4]), 6)
+            self.assertEqual(func([1]), 1)
+            self.assertEqual(func([-1,-2]), -1)
 
 if __name__ == '__main__':
     unittest.main()
