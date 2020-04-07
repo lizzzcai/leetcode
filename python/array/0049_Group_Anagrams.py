@@ -40,6 +40,23 @@ class Solution1:
         
         return list(hmap.values())
 
+class Solution2:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        '''
+        Time: O(NK), N is the length of strs, K is the max length of string in strs. O(N)
+               as we iterate each string.
+               
+        Space: O(NK)
+        '''
+        hmap = collections.defaultdict(list)
+        for s in strs:
+            count = [0] * 26
+            for ch in s:
+                count[ord(ch)-ord('a')] += 1
+            hmap[tuple(count)].append(s)
+        
+        return hmap.values()
+
 # Unit Test
 import unittest
 class TestCase(unittest.TestCase):
@@ -50,9 +67,11 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [Solution1()]:
+        for Sol in [Solution1(), Solution2()]:
             func = Sol.groupAnagrams
-            self.assertEqual(func(["eat","tea","tan","ate","nat","bat"]), [["eat","tea","ate"],["tan","nat"],["bat"]])
+            out = func(["eat","tea","tan","ate","nat","bat"])
+            res = [["eat","tea","ate"],["tan","nat"],["bat"]]
+            self.assertEqual(set([tuple(sorted(x)) for x in out]), set([tuple(sorted(x)) for x in res]))
 
 if __name__ == '__main__':
     unittest.main()
