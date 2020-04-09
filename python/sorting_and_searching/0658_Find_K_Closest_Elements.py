@@ -90,7 +90,8 @@ class TestCase(unittest.TestCase):
             func = Sol.findClosestElements
             self.assertEqual(func([1,2,3,4,5], 4, 3), [1,2,3,4])
             self.assertEqual(func([1,2,3,4,5], 4, -1), [1,2,3,4])
-
+            self.assertEqual(func([0,0,1,2,3,3,4,7,7,8], 3, 5), [3,3,4])
+            self.assertEqual(func([0,1,2,2,2,3,6,8,8,9], 5, 9), [3,6,8,8,9])
 
 if __name__ == '__main__':
     unittest.main()
