@@ -63,6 +63,25 @@ class Solution2:
         return self.ans - 1
         
 
+class Solution3:
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        '''
+        O(n)
+        O(n) stack
+        '''
+        def height(node):
+            nonlocal diameter
+            if not node:
+                return 0
+            left = height(node.left)
+            right = height(node.right)
+            diameter = max(diameter, left+right)
+            return max(left, right) + 1
+        
+        diameter = 0
+        height(root)
+        return diameter
+
 # Unit Test
 import unittest
 class TestCase(unittest.TestCase):
