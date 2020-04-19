@@ -168,6 +168,40 @@ class Solution5:
         
         return dp[target]
 
+
+class Solution6:
+    def findTargetSumWays(self, nums: List[int], S: int) -> int:
+        '''
+        DP
+        Time: O(l*n) l == 2001
+        Space:O(l)
+        
+
+        https://leetcode.com/problems/target-sum/discuss/455024/DP-IS-EASY!-5-Steps-to-Think-Through-DP-Questions.
+        '''
+        index = len(nums) - 1
+        curr_sum = 0
+        memo = {}
+
+        def dp(nums, target, index, curr_sum, memo):
+            if (index, curr_sum) in memo:
+                return memo[(index, curr_sum)]
+            # base case
+            if index < 0 and curr_sum == target:
+                return 1
+            if index < 0:
+                return 0
+
+            # Decisions
+            positive = dp(nums, target, index-1, curr_sum + nums[index],memo)
+            negative = dp(nums, target, index-1, curr_sum - nums[index],memo)
+
+            memo[(index, curr_sum)] = positive+negative
+            return memo[(index, curr_sum)] 
+        
+        return dp(nums,S,index,0, memo)
+
+
 # Unit Test
 import unittest
 class TestCase(unittest.TestCase):
@@ -178,7 +212,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [Solution1(), Solution2()]:
+        for Sol in [Solution1(), Solution2(),Solution3(),Solution4(),Solution5(), Solution6()]:
             func = Sol.findTargetSumWays
             self.assertEqual(func([1,1,1,1,1],3) ,5)
             self.assertEqual(func([6,20,22,38,11,15,22,30,0,17,34,29,7,42,46,49,30,7,14,5], 28), 6738)
