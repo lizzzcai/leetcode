@@ -34,7 +34,7 @@ class TreeNode:
         self.left = None
         self.right = None
 
-class Solution:
+class Solution1:
     def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
         
         '''
@@ -66,10 +66,11 @@ class Solution:
             
 
 
-class Solution:
+class Solution2:
     def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
         '''
         recursion
+        O(N^2)
         '''
         if not preorder:
             return None
@@ -84,6 +85,37 @@ class Solution:
         root.right = self.bstFromPreorder(right)
         
         return root
+
+class Solution3:
+    def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
+        '''
+        O(N^2)
+        '''
+        if not preorder:
+            return None
+        
+        def helper(start, end):
+            if start == end:
+                return TreeNode(preorder[start])
+            if start > end:
+                return None
+            
+            mid = start+1
+            while mid <= end:
+                if preorder[mid] < preorder[start]:
+                    mid += 1
+                else:
+                    break
+
+            
+            root = TreeNode(preorder[start])
+            root.left = helper(start+1, mid-1)
+            root.right = helper(mid, end)
+            
+            return root
+        
+        return helper(0, len(preorder)-1)
+
 
 class Solution_is_same_tree:
     def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:

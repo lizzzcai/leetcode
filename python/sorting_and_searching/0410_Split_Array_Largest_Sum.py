@@ -144,7 +144,8 @@ class Solution4:
                 # make a cut
                 if curr_sum > mid:
                     cuts, curr_sum = cuts+1, x
-            
+                #if cuts > m:
+                #    return False
             return cuts <= m
         
         low, high = max(nums), sum(nums)
