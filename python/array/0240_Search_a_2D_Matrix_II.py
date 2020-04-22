@@ -114,7 +114,42 @@ class Solution2:
             col -= 1
         
         return False
+
+
+class Solution3:
+    def searchMatrix(self, matrix, target):
+        if not matrix or not matrix[0]:
+            return False
         
+        # out of range
+        if target < matrix[0][0] or target > matrix[-1][-1]:
+            return False
+        
+        def divideAndConquer(matrix, target, startX, startY, endX, endY):
+            # mid = start + (end-start) // 2
+            midX, midY = startX+(endX-startX)//2, startY+(endY-startY)//2
+            # stop if start > end
+            if startX > endX or startY > endY:
+                return False
+            if matrix[midY][midX] == target:
+                return True
+            elif matrix[midY][midX] > target:
+                # mid-1
+                zone1 = divideAndConquer(matrix,target,startX,startY,midX-1,midY-1)
+                zone2 = divideAndConquer(matrix,target,midX,startY,endX,midY-1)
+                zone3 = divideAndConquer(matrix, target, startX,midY,midX-1,endY)
+                return zone1 or zone2 or zone3
+            else:
+                # mid+1
+                zone2 = divideAndConquer(matrix,target,midX+1,startY,endX,midY)
+                zone3 = divideAndConquer(matrix,target,startX,midY+1,midX,endY)
+                zone4 = divideAndConquer(matrix, target, midX+1,midY+1,endX,endY)
+                return zone2 or zone3 or zone4
+
+
+        return divideAndConquer(matrix, target, 0, 0, len(matrix[0])-1, len(matrix)-1)
+
+
 # Unit Test
 import unittest
 class TestCase(unittest.TestCase):
@@ -125,7 +160,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [Solution1(), Solution2()]:
+        for Sol in [Solution1(), Solution2(), Solution3()]:
             func = Sol.searchMatrix
             self.assertEqual(func([[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], 5), True)
             self.assertEqual(func([[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], 20), False)
