@@ -137,6 +137,29 @@ class LRUCache_2:
             self.count -= 1
 
 
+class LRUCache_3:
+
+    def __init__(self, capacity: int):
+        self.dict = collections.OrderedDict()
+        self.cap = capacity
+
+        
+    def get(self, key: int) -> int:
+        if key in self.dict:
+            self.dict.move_to_end(key)
+            return self.dict[key]
+        
+        return -1
+        
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.dict:
+            del self.dict[key]
+        self.dict[key] = value
+        if len(self.dict) > self.cap:
+            oldest = next(iter(self.dict))
+            del self.dict[oldest]
+
 # Unit Test
 import unittest
 class TestCase(unittest.TestCase):
@@ -147,7 +170,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [LRUCache_1(2), LRUCache_2(2)]:
+        for Sol in [LRUCache_1(2), LRUCache_2(2), LRUCache_3(2)]:
             obj = Sol
             obj.put(1,1)
             obj.put(2,2)
