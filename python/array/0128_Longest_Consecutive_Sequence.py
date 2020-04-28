@@ -16,7 +16,25 @@ Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefor
 """
 
 from typing import List
-class Solution:
+
+
+class Solution1:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        num_set = set(nums)
+        res = 0
+        for x in nums:
+            start = x
+            curr = 0
+            while start in num_set:
+                start = start + 1
+                curr += 1
+            
+            res = max(res, curr)
+        
+        return res
+                
+
+class Solution2:
     def longestConsecutive(self, nums: List[int]) -> int:
         """
         Time: O(nlgn)
@@ -37,7 +55,7 @@ class Solution:
         
         return res
 
-class Solution1:
+class Solution3:
     def longestConsecutive(self, nums: List[int]) -> int:
         """
         use set to store and have O(1) look up
@@ -82,13 +100,15 @@ class longestConsecutiveCase(unittest.TestCase):
         pass
 
     def test_longestConsecutive(self):
-        func = Solution().longestConsecutive
 
-        self.assertEqual(func([]), 0)
-        self.assertEqual(func([100, 4, 200, 1, 3, 2]), 4)
-        self.assertEqual(func([0, -1]), 2)
-        self.assertEqual(func([1,2,0,1]), 3)
-        self.assertEqual(func([9,1,4,7,3,-1,0,5,8,-1,6]), 7)
+        for Sol in [Solution1(),Solution2(), Solution3()]:
+            func = Sol.longestConsecutive
+
+            self.assertEqual(func([]), 0)
+            self.assertEqual(func([100, 4, 200, 1, 3, 2]), 4)
+            self.assertEqual(func([0, -1]), 2)
+            self.assertEqual(func([1,2,0,1]), 3)
+            self.assertEqual(func([9,1,4,7,3,-1,0,5,8,-1,6]), 7)
 
 
 
