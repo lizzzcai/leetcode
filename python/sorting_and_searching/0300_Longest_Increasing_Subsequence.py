@@ -25,6 +25,12 @@ class Solution1:
     def lengthOfLIS(self, nums: List[int]) -> int:
         '''
         binary search
+
+        https://leetcode.com/problems/longest-increasing-subsequence/discuss/74824/JavaPython-Binary-search-O(nlogn)-time-with-explanation
+
+        Patience Sort
+        https://www.cs.princeton.edu/courses/archive/spring13/cos423/lectures/LongestIncreasingSubsequence.pdf
+
         Time: O(NlogN)
         Space: O(N)
         '''

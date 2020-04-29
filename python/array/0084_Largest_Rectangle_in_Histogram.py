@@ -125,12 +125,10 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        func = Solution1().largestRectangleArea
-        self.assertEqual(func([2,1,5,6,2,3]), 10)
-        func = Solution2().largestRectangleArea
-        self.assertEqual(func([2,1,5,6,2,3]), 10)
-        func = Solution3().largestRectangleArea
-        self.assertEqual(func([2,1,5,6,2,3]), 10)
+
+        for Sol in [Solution1(),Solution2(),Solution3()]:
+            func = Sol.largestRectangleArea
+            self.assertEqual(func([2,1,5,6,2,3]), 10)
 
 if __name__ == '__main__':
     unittest.main()
