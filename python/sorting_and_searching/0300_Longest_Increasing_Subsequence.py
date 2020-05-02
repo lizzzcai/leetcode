@@ -82,6 +82,43 @@ class Solution2:
         return max(dp)
         
 
+class Solution3:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        '''
+        Patience sort
+        Time: O(NlogN)
+        Space: O(N)
+        '''
+        n = len(nums)
+        if n <= 1:
+            return n
+        # num, pointer
+        c = [(0,0)]*n
+        size = 0
+        
+        def find_left(nums, right, target):
+            l, r = 0, right-1
+            while l <= r:
+                mid = (l+r)//2
+                if nums[mid][0] >= target:
+                    r = mid - 1
+                else:
+                    l = mid + 1
+            
+            return l
+        
+        for x in nums:
+            idx = find_left(c, size, x)
+            c[idx] = (x, c[idx-1][0]) if idx > 0 else (x, 0)
+            size = max(size, idx+1)
+
+        LIS = [c[size-1][0]]
+        for i in range(size-1, 0, -1):
+            LIS.append(c[i][1])
+
+        #print(LIS[::-1])
+        return size
+
 # Unit Test
 import unittest
 class TestCase(unittest.TestCase):
@@ -92,7 +129,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [Solution1(), Solution2()]:
+        for Sol in [Solution1(), Solution2(), Solution3()]:
             func = Sol.lengthOfLIS
             self.assertEqual(func([10,9,2,5,3,7,101,18]), 4)
             self.assertEqual(func([10]), 1)
