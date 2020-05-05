@@ -66,8 +66,9 @@ class Solution2:
         n = len(s)
         dp = [[0]*n for _ in range(n)]
         
-        for i in range(n-1,-1,-1):
-            for j in range(i, n):
+        #dp[i]j]: result in range[i,j]
+        for j in range(0, n):
+            for i in range(j, -1, -1):
                 if i == j:
                     dp[i][j] = 1
                 elif s[i] == s[j]:
@@ -76,6 +77,7 @@ class Solution2:
                     dp[i][j] = max(dp[i+1][j], dp[i][j-1])
         
         return dp[0][n-1]
+                
                 
 
 # Unit Test
