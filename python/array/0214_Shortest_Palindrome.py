@@ -90,8 +90,9 @@ class Solution:
         '''
         rolling hash
         Time: O(n)
-        Space: O(n)
+        Space: O(1)
         https://leetcode.com/problems/shortest-palindrome/discuss/60153/8-line-O(n)-method-using-Rabin-Karp-rolling-hash
+        http://courses.csail.mit.edu/6.006/spring11/rec/rec06.pdf
         '''
         n = len(s)
         if n <= 1:
