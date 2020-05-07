@@ -58,6 +58,45 @@ class Solution1:
                         res.append([j,i])
         
         return res
+
+
+class Solution2:
+    def palindromePairs(self, words: List[str]) -> List[List[int]]:
+        
+        '''
+        https://leetcode.com/problems/palindrome-pairs/discuss/79209/Accepted-Python-Solution-With-Explanation
+        Time: O(n*K^2)
+        Space: O(n)
+        
+        '''
+        def is_palindrome(s):
+            return s == s[::-1]
+        
+        lookup = {w:idx for idx,w in enumerate(words)}
+        
+        res = []
+        for word, idx in lookup.items():
+            for j in range(len(word)+1):
+                prefix = word[:j]
+                suffix = word[j:]
+                
+                if is_palindrome(prefix):
+                    suffix_r = suffix[::-1]
+                    # aviod cause when j = 0 and the word is self-palindrome
+                    if suffix_r in lookup and lookup[suffix_r] != idx:
+                        res.append([lookup[suffix_r], idx])
+                
+                # j != len(word) to avoid duplicate case as it was done when j = 0 in prefix
+                if j != len(word) and is_palindrome(suffix):
+                    prefix_r = prefix[::-1]
+                    #if prefix_r in lookup:
+                    if prefix_r in lookup and lookup[prefix_r] != idx:
+                        res.append([idx, lookup[prefix_r]])
+        
+        return res
+                
+        
+
 # Unit Test
 import unittest
 class TestCase(unittest.TestCase):
@@ -68,7 +107,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [Solution1()]:
+        for Sol in [Solution1(), Solution2()]:
             func = Sol.palindromePairs
             self.assertEqual(func(["abcd","dcba","lls","s","sssll"]), [[0,1],[1,0],[3,2],[2,4]])
             self.assertEqual(func(["bat","tab","cat"]), [[0,1],[1,0]])

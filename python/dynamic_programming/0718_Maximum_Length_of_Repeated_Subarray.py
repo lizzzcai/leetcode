@@ -25,8 +25,9 @@ Note:
 '''
 
 from typing import List
+import collections
 # Solution
-class Solution:
+class Solution1:
     '''
     Time complexity : O(nm)
     Space complexity : O(nm)
@@ -49,7 +50,7 @@ class Solution:
         
         return max(max(row) for row in dp)
 
-class Solution1:
+class Solution2:
     '''
     binary search
 
@@ -89,6 +90,44 @@ class Solution1:
             
         return l-1
 
+
+class Solution3:
+    def findLength(self, A: List[int], B: List[int]) -> int:
+        P, MOD = 113, 10**9 + 7
+        Pinv = pow(P, MOD-2, MOD)
+        def check(guess):
+            def rolling(A, length):
+                if length == 0:
+                    yield 0, 0
+                    return
+                h, power = 0, 1
+                for i, x in enumerate(A):
+                    h = (h+x*power) % MOD
+                    if i < length - 1:
+                        power = (power*P) % MOD
+                    else:
+                        yield h, i-(length-1)
+                        h = (h-A[i-(length-1)]) * Pinv % MOD
+            
+            hashes = collections.defaultdict(list)
+            for ha, start in rolling(A, guess):
+                hashes[ha].append(start)
+            for ha, start in rolling(B, guess):
+                iarr = hashes.get(ha, [])
+                if any(A[i:i+guess] == B[start:start+guess] for i in iarr):
+                    return True
+            return False
+                        
+        l, r = 0, min(len(A), len(B)) + 1
+        while l <= r:
+            mid = (l + r) // 2
+            if check(mid):
+                l = mid + 1
+            else:
+                r = mid - 1
+            
+        return r
+
 # Unit Test
 import unittest
 class TestCase(unittest.TestCase):
@@ -99,11 +138,9 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        func = Solution().findLength
-        self.assertEqual(func([1,2,3,2,1], [3,2,1,4,7]), 3)
-
-        func = Solution1().findLength
-        self.assertEqual(func([1,2,3,2,1], [3,2,1,4,7]), 3)
+        for Sol in [Solution1(), Solution2(), Solution3()]:
+            func = Sol.findLength
+             self.assertEqual(func([1,2,3,2,1], [3,2,1,4,7]), 3)
 
 if __name__ == '__main__':
     unittest.main()
