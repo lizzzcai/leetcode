@@ -72,6 +72,32 @@ class Solution1:
         
         return res
 
+import collections
+class Solution2:
+    def longestSubarray(self, nums: List[int], limit: int) -> int:
+        minq, maxq = collections.deque(), collections.deque()
+        res = i = 0
+        
+        for j, x in enumerate(nums):
+            
+            while minq and minq[-1] > x: # ascend
+                minq.pop()
+            while maxq and maxq[-1] < x: # desend
+                maxq.pop()          
+            
+            minq.append(x)
+            maxq.append(x)
+            
+            while maxq[0] - minq[0] > limit:
+                if maxq[0] == nums[i]:
+                    maxq.popleft()
+                if minq[0] == nums[i]:
+                    minq.popleft()    
+                i+=1
+            res = max(res, j-i+1)
+        
+        return res
+
 # Unit Test
 import unittest
 class TestCase(unittest.TestCase):
@@ -82,7 +108,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [Solution1()]:
+        for Sol in [Solution1(),Solution2()]:
             func = Sol.longestSubarray
             self.assertEqual(func([8,2,4,7], 4), 2)
             self.assertEqual(func([10,1,2,4,7,2], 5), 4)

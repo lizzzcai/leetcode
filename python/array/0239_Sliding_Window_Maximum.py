@@ -41,6 +41,28 @@ class Solution1:
             res.append(max(nums[i:i+k]))
         return res
 
+import collections
+class Solution2:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        
+        maxq = collections.deque()
+        res = []
+        
+        for j, x in enumerate(nums):
+            while maxq and nums[maxq[-1]] < x:
+                maxq.pop()
+            
+            maxq.append(j)
+            
+            if j - maxq[0]+1 > k:
+                maxq.popleft()
+            
+            if j+1 >= k:
+                res.append(nums[maxq[0]])
+
+        
+        return res
+
 from collections import deque
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
@@ -84,9 +106,11 @@ class maxSlidingWindowCase(unittest.TestCase):
         pass
 
     def test_maxSlidingWindow(self):
-        func = Solution().maxSlidingWindow
-        self.assertEqual(func([], 3), [])
-        self.assertEqual(func([1,3,-1,-3,5,3,6,7], 3), [3,3,5,5,6,7])
+        for Sol in [Solution1(),Solution2()]:
+            func = Sol.maxSlidingWindow
+
+            self.assertEqual(func([], 3), [])
+            self.assertEqual(func([1,3,-1,-3,5,3,6,7], 3), [3,3,5,5,6,7])
 
 
 
