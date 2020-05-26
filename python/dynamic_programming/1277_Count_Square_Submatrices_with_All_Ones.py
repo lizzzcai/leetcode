@@ -67,6 +67,71 @@ class Solution1:
         return res
         
 
+class Solution2:
+    def countSquares(self, matrix: List[List[int]]) -> int:
+        '''
+        https://leetcode.com/problems/maximal-square/solution/
+        dp[i][j] means the size of biggest square with A[i][j] as bottom-right corner.
+        dp[i][j] also means the number of squares with A[i][j] as bottom-right corner.
+
+        time: O(mn)
+        space: o(mn)
+        '''
+        if not matrix:
+            return 0
+        rows = len(matrix)
+        cols = len(matrix[0])
+        # init the dp
+        dp = [[0]*(cols+1) for _ in range(rows+1)]
+        
+        for r in range(1,rows+1):
+            for c in range(1, cols+1):
+                if matrix[r-1][c-1] == 1:
+                    dp[r][c] = min(dp[r-1][c-1], dp[r-1][c], dp[r][c-1]) + 1
+                else:
+                    dp[r][c] = 0
+                    
+        return sum(map(sum, dp))
+
+class Solution3:
+    def countSquares(self, matrix: List[List[int]]) -> int:
+        '''
+        https://leetcode.com/problems/maximal-square/solution/
+        dp[i][j] means the size of biggest square with A[i][j] as bottom-right corner.
+        dp[i][j] also means the number of squares with A[i][j] as bottom-right corner.
+
+        time: O(mn)
+        space: o(1)
+        '''
+        res = 0
+        
+        for r in range(0, len(matrix)):
+            for c in range(0, len(matrix[0])):
+                if r > 0 and c > 0 and matrix[r][c] == 1:
+                    matrix[r][c] = min(matrix[r-1][c], matrix[r-1][c-1],matrix[r][c-1]) + 1
+                res += matrix[r][c]
+                
+        return res
+
+
+class Solution4:
+    def countSquares(self, matrix: List[List[int]]) -> int:
+        '''
+        https://leetcode.com/problems/maximal-square/solution/
+        dp[i][j] means the size of biggest square with A[i][j] as bottom-right corner.
+        dp[i][j] also means the number of squares with A[i][j] as bottom-right corner.
+        
+        https://leetcode.com/problems/count-square-submatrices-with-all-ones/discuss/441306/JavaC%2B%2BPython-DP-solution
+        time: O(mn)
+        space: o(1)
+        '''
+
+        for r in range(1, len(matrix)):
+            for c in range(1, len(matrix[0])):
+                    matrix[r][c] *= min(matrix[r-1][c], matrix[r-1][c-1],matrix[r][c-1]) + 1
+                
+        return sum(map(sum,matrix))
+
 # Unit Test
 import unittest
 class TestCase(unittest.TestCase):
@@ -77,7 +142,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [Solution1()]:
+        for Sol in [Solution1(), Solution2(),Solution3(),Solution4()]:
             func = Sol.countSquares
             self.assertEqual(func([[0,1,1,1],[1,1,1,1],[0,1,1,1]]), 15)
             self.assertEqual(func([[1,0,1],[1,1,0], [1,1,0]]), 7)

@@ -117,6 +117,37 @@ class Solution3:
         return helper(0, len(preorder)-1)
 
 
+
+class Solution4:
+    '''
+    O(nlogn)
+    '''
+    def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
+        if not preorder:
+            return None
+        
+        def helper(start, end):
+            if start == end:
+                return TreeNode(preorder[start])
+            if start > end:
+                return None
+            
+            mid = start+1
+            while mid <= end:
+                if preorder[mid] < preorder[start]:
+                    mid += 1
+                else:
+                    break
+            
+            root = TreeNode(preorder[start])
+            root.left = helper(start+1, mid-1)
+            root.right = helper(mid, end)
+            
+            return root
+        
+        return helper(0, len(preorder)-1)
+        
+
 class Solution_is_same_tree:
     def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
         '''
