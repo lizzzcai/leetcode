@@ -58,3 +58,27 @@ func kthSmallest_2(root *TreeNode, k int) int {
 	}
 	return x
 }
+
+// stack
+
+func kthSmallest_3(root *TreeNode, k int) int {
+	stack := []*TreeNode{}
+
+	for {
+		for root != nil {
+			stack = append(stack, root)
+			root = root.Left
+		}
+
+		root = stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+
+		k--
+		if k == 0 {
+			return root.Val
+		}
+
+		root = root.Right
+
+	}
+}

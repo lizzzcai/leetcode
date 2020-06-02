@@ -34,7 +34,7 @@ func TestKthSmallest(t *testing.T) {
 	for _, tt := range tests {
 		testname := fmt.Sprintf("%v,%v", tt.root, tt.k)
 		t.Run(testname, func(t *testing.T) {
-			for _, fn := range []func(*TreeNode, int) int{kthSmallest, kthSmallest_2} {
+			for _, fn := range []func(*TreeNode, int) int{kthSmallest, kthSmallest_2, kthSmallest_3} {
 				ans := fn(tt.root, tt.k)
 				if ans != tt.want {
 					t.Errorf("got %v, want %v", ans, tt.want)
