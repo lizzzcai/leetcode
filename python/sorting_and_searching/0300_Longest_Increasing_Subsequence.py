@@ -116,8 +116,35 @@ class Solution3:
         for i in range(size-1, 0, -1):
             LIS.append(c[i][1])
 
-        #print(LIS[::-1])
+        print(LIS[::-1])
         return size
+
+import bisect
+class Solution4:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        '''
+        Patience sort
+        Time: O(NlogN)
+        Space: O(N)
+        '''
+        n = len(nums)
+        if n <= 1:
+            return n
+        # num, pointer
+        c = []
+        size = 0
+        
+        for x in nums:
+            l = bisect.bisect_left(c, x)
+            if l < size:
+                c[l] = x
+            else:
+                c.append(x)
+                size = max(size, l+1)
+
+        return size
+        
+
 
 # Unit Test
 import unittest
@@ -129,7 +156,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [Solution1(), Solution2(), Solution3()]:
+        for Sol in [Solution1(), Solution2(), Solution3(),Solution4()]:
             func = Sol.lengthOfLIS
             self.assertEqual(func([10,9,2,5,3,7,101,18]), 4)
             self.assertEqual(func([10]), 1)
