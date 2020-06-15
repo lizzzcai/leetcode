@@ -199,6 +199,80 @@ class Solution1:
         layer = next_layer
         return layer, res
 
+
+class Solution3:
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        '''
+        BFS:
+        
+        Algorithm:
+        1. Do the pre-processing on the given wordList and find all the possible generic/intermediate states. Save these intermediate states in a dictionary with key as the intermediate word and value as the list of words which have the same intermediate word.
+
+        2. Push the key-value pair with beginWord as key and all the transformation sequence to this key word from beginWord into a dict Layers. for the beginWord, it's beginWord:[[beginWord]]. We return all the transformation sequence of the endWord at the end.
+
+        3. To prevent cycles, use a visited dictionary.
+
+        4. While the dict: Layers has elements, iterate the key, Let's call this word as current_word.
+        
+        5. If the current_word match with the endWord, append all the transformation sequence into result.
+        
+        6. Find all the generic transformations of the current_word and find out if any of these transformations is also a transformation of other words in the word list. This is achieved by checking the all_combo_dict.
+
+        7. The list of words we get from all_combo_dict are all the words which have a common intermediate state with the current_word. These new set of words will be the adjacent nodes/words to current_word and hence added to the queue.
+
+        8. Hence, for each word in this list of intermediate words, if it's not visted, append it to all the transformation sequence of the current_word, to form a list of tranformation sequence to the word which the current_word can transformate to. next_layer[word] += [path + [word] for path in layer[curr_word]]
+
+        9. For all the word in the next_layer, mark them visted.
+        
+        10. Replace the Layer with next layer and do the above again.
+        
+        11. Return the result.
+        
+        
+
+        Time: O(M×N), where M is the length of words and N is the total number of words in the input word list.
+        Space: O(M×N), to store all M transformations for each of the N words, in the all_combo_dict dictionary. Visited dictionary is of N + MXN size
+        
+        '''
+        
+        if endWord not in wordList or not endWord or not beginWord or not wordList:
+            return []
+        n = len(beginWord)
+        # get all the possible itermediate word as key and list of it's resulting word as value
+        combo = collections.defaultdict(list)
+        for w in wordList:
+            for i in range(n):
+                combo[w[:i]+'*'+w[i+1:]].append(w)
+            
+        #create a queue with (word, path to the word)
+        queue = collections.deque([(beginWord, [beginWord])])
+        visited = set([beginWord])
+        
+        res = []
+        while queue:
+            next_layer_visited = set()
+            for _ in range(len(queue)):
+                curr_word, path = queue.popleft()
+                if curr_word == endWord:
+                    res.append(path)
+                for i in range(n):
+                    iter_word = curr_word[:i]+'*'+curr_word[i+1:]
+                    next_words = combo[iter_word]
+                    for w in next_words:
+                        if w in visited:
+                            continue
+
+                        queue.append((w, path+[w]))
+                        next_layer_visited.add(w)
+            visited |= next_layer_visited
+        return res
+                
+        
+        
+    
+                
+        
+
 # Unit Test
 import unittest
 class findLaddersCase(unittest.TestCase):

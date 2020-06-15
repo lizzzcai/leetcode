@@ -61,6 +61,43 @@ class Solution1:
                 l = mid + 1
         # first vlaue meet the target
         return l
+
+
+
+class Solution2:
+    def smallestDistancePair(self, nums: List[int], k: int) -> int:
+        '''
+        https://leetcode.com/problems/find-k-th-smallest-pair-distance/discuss/196304/Verbosely-commented-Python-Approach-3-with-example-walkthrough
+        https://leetcode.com/problems/find-k-th-smallest-pair-distance/solution/
+        
+        
+        https://leetcode.com/problems/find-k-th-smallest-pair-distance/discuss/109082/Approach-the-problem-using-the-%22trial-and-error%22-algorithm
+        
+        '''
+        
+        nums.sort()
+        n = len(nums)
+        l, h = 0, nums[-1]-nums[0]
+        
+        while l <= h:
+            mid = (l+h) // 2
+            count = 0
+            i = 0
+            for j in range(n):
+                while i < j and nums[j]-nums[i] > mid:
+                    i+=1
+                if j > i:
+                    count += j-i
+            
+            if count < k:
+                l = mid + 1
+            else:
+                h = mid - 1
+        
+        return l
+                
+
+        
         
 
 # Unit Test
@@ -73,7 +110,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [Solution1()]:
+        for Sol in [Solution1(),Solution2()]:
             func = Sol.smallestDistancePair
             self.assertEqual(func([1,3,1], 1), 0)
             self.assertEqual(func([62,100,4], 2), 58)

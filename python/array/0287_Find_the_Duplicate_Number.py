@@ -52,7 +52,26 @@ class Solution1:
             ptr2 = nums[ptr2]
         
         return ptr1
-    
+
+class Solution2:
+    def findDuplicate(self, nums: List[int]) -> int:
+        
+        l, h = 1, len(nums)-1
+        
+        while l <= h:
+            mid = (l+h)//2
+            count = 0
+            for x in nums:
+                if x <= mid:
+                    count += 1
+            if count <= mid:
+                l = mid + 1
+            else:
+                h = mid-1
+        
+        return l
+
+
 # Unit Test
 import unittest
 class findDuplicateCase(unittest.TestCase):

@@ -3,17 +3,18 @@ from __future__ import print_function
 class Solution1:
     def partition(slef, array, left, right):
         """quick sort partition function"""
-        i = left-1 # index of smaller element
+        pivot = arr[right]
+        i = left # index of smaller element
         for j in range(left, right):
             # if the current element is smaller than the pivot
-            if array[j] <= array[right]:
-                # increase index of smaller element
-                i += 1
+            if array[j] <= pivot:
                 # swap the values
                 array[j], array[i] = array[i], array[j]
+                # increase index of smaller element
+                i += 1
         # swap the pivot
-        array[i+1], array[right] = array[right], array[i+1]
-        return i+1
+        array[i], array[right] = array[right], array[i]
+        return i
 
     def quicksort(self, array, left, right):
         """Quick sort algorithm implementation"""

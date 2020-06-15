@@ -2,6 +2,20 @@
 
 from typing import List
 
+
+
+def selection_sort(arr):
+
+    for i in range(len(arr)):
+        min_idx = i
+        for j in range(i, len(arr)):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx],arr[i]
+    
+    return arr
+
+
 class Solution1:
     def selection_sort(self, arr: List[int]) -> List[int]:
         '''
@@ -43,6 +57,9 @@ class Solution2:
                 smallest_index = i
         return smallest_index
 
+
+
+
 # Unit Test
 import unittest
 class selection_sortCase(unittest.TestCase):
@@ -53,7 +70,7 @@ class selection_sortCase(unittest.TestCase):
         pass
 
     def test_selection_sort(self):
-        func = Solution1().selection_sort
+        func = selection_sort
         # test 1
         self.assertEqual(func([54,26,93,17,77,31,44,55,20]), [17, 20, 26, 31, 44, 54, 55, 77, 93])
 
