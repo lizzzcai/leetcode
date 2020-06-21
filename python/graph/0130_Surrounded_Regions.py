@@ -137,7 +137,77 @@ class Solution1:
             self.dfs(board, r-1, c, R, C)            
             self.dfs(board, r+1, c, R, C)   
     
+class DSU:
+    def __init__(self):
+        self.par = {}
+        
+    def find(self, x):
+        if self.par[x] != x:
+            self.par[x] = self.find(self.par[x])
+        return self.par[x]
+
+    def _add(self, x):
+        if x in self.par:
+            return
+        self.par[x] = x
     
+    def union(self, x, y):
+        if x not in self.par:
+            self._add(x)
+        if y not in self.par:
+            self._add(y)
+        
+        xr, yr = self.find(x), self.find(y)
+        if xr == yr:
+            return False
+        
+        self.par[xr] = yr
+        return True
+    
+    def is_connected(self, x, y):
+        if x not in self.par:
+            self._add(x)
+        if y not in self.par:
+            self._add(y)
+        
+        xr, yr = self.find(x), self.find(y)
+        return xr == yr
+
+    
+class Solution2:
+    def solve(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        if not board or not board[0]:
+            return
+        R, C = len(board), len(board[0])
+        if R <= 2 or C <= 2:
+            return
+        
+        dsu = DSU()
+        for r in range(0, R):
+            for c in range(0, C):
+                # start from the boarder and connect all 'O' to dummy node R*C
+                if board[r][c] == 'O' and (r == 0 or c == 0 or r == R-1 or c == C-1):
+                    dsu.union(r*R+c, R*C)
+                elif board[r][c] == 'O':
+                    # if the middle is 'O' and the cell in 4 dirs is 'O', connect together
+                    for dr, dc in [(1,0),(0,1),(-1,0),(0,-1)]:
+                        nr, nc = r+dr, c+dc
+                        if board[nr][nc] == 'O':
+                            dsu.union(r*R+c, nr*R+nc)
+        
+        # check if the cell is connected to the dummy node
+        for r in range(R):
+            for c in range(C):
+                if not dsu.is_connected(r*R+c, R*C):
+                    board[r][c] = 'X'
+
+        return board
+        
+        
+        
 
 # Unit Test
 import unittest
@@ -153,6 +223,9 @@ class solveCase(unittest.TestCase):
         self.assertEqual(func([["X","X","X","X"],["X","O","O","X"],["X","X","O","X"],["X","O","X","X"]]), [["X","X","X","X"],["X","X","X","X"],["X","X","X","X"],["X","O","X","X"]])
 
         func = Solution1().solve
+        self.assertEqual(func([["X","X","X","X"],["X","O","O","X"],["X","X","O","X"],["X","O","X","X"]]), [["X","X","X","X"],["X","X","X","X"],["X","X","X","X"],["X","O","X","X"]])
+
+        func = Solution2().solve
         self.assertEqual(func([["X","X","X","X"],["X","O","O","X"],["X","X","O","X"],["X","O","X","X"]]), [["X","X","X","X"],["X","X","X","X"],["X","X","X","X"],["X","O","X","X"]])
 
 

@@ -41,7 +41,13 @@ class Solution1:
             
             MOD = 10 ** 9 + 7
             P = 113
-            INV_P = pow(P, MOD-2, MOD)# xy % z
+            INV_P = pow(P, MOD-2, MOD)# x^y % z = P^(MOD-2) % MOD
+
+            P = 113
+            MOD = 10 ** 9 + 7
+            INV_P = 1/113
+
+
 
             h = 0
             power = 1
