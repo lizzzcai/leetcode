@@ -92,6 +92,8 @@ class TestCase(unittest.TestCase):
             self.assertEqual(func([1,2,3,4,5,6], 10), False)
             self.assertEqual(func([1,2,3,4,5,6], 10), False)
             self.assertEqual(func([-10, 10], 2), True)
+            self.assertEqual(func([-1,1,-2,2,-3,3,-4,4], 3), True)
+
 
 
 
