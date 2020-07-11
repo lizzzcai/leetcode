@@ -80,7 +80,7 @@ class Node:
         self.child = child
 
 from typing import List
-class Solution:
+class Solution1:
     '''
     Time:  O(n)
     Space: O(1)
@@ -111,7 +111,29 @@ class Solution:
             
         dfs(head)
         return head
-            
+
+
+class Solution2:
+    def flatten(self, head: 'Node') -> 'Node':
+        if not head:
+            return head
+        
+        dummy = Node(None, None, None, None)
+        stack = [head]
+        prev = dummy
+        
+        while stack:
+            node = stack.pop()
+            node.prev, prev.next = prev, node
+            prev = node
+            if node.next:
+                stack.append(node.next)
+            if node.child:
+                stack.append(node.child)
+                node.child = None
+        
+        head.prev = None
+        return head
 
 
 def list_to_linkedlist(val_list):
@@ -139,13 +161,14 @@ class sortListCase(unittest.TestCase):
         pass
 
     def test_sortList(self):
-        func = Solution().flatten
-        l1 = Node(1, None, None, None)
-        l1.next =Node(2,None, None, None)
-        l1.child = Node(3,None, None, None)
-        src = func(l1)
+        for Sol in [Solution1(),Solution2()]:
+            func = Sol.flatten
+            l1 = Node(1, None, None, None)
+            l1.next =Node(2,None, None, None)
+            l1.child = Node(3,None, None, None)
+            src = func(l1)
 
-        self.assertEqual(linkedlist_to_list(src), [1,3,2])
+            self.assertEqual(linkedlist_to_list(src), [1,3,2])
 
 
 if __name__ == '__main__':
