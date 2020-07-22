@@ -36,8 +36,8 @@ from typing import List
 # Solution
 class Solution1:
     '''
-    Time complexity : O(n)
-    Space complexity : O(n)
+    Time complexity : O(n^2)
+    Space complexity : O(n^2)
     '''
     def exist(self, board: List[List[str]], word: str) -> bool:
         if not board:
