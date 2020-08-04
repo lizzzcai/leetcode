@@ -45,7 +45,20 @@ class Solution2:
         
         return num > 0 and is_power_of_two and is_power_of_four
         
-    
+class Solution3:
+    def isPowerOfFour(self, num: int) -> bool:
+        '''
+        First,greater than 0.Second,only have one '1' bit in their binary notation,so we use x&(x-1) to delete the lowest '1',and if then it becomes 0,it prove that there is only one '1' bit.Third,the only '1' bit should be locate at the odd location
+        '''
+        x = 1
+        for i in range(32):
+            x <<= 1
+            if i % 2 != 0:
+                x |= 1
+            
+        return num != 0 and num &(num-1) == 0 and num & x == num
+
+
 
 # Unit Test
 import unittest
@@ -57,7 +70,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for s in [Solution1(), Solution2()]:
+        for s in [Solution1(), Solution2(), Solution3()]:
             func = s.isPowerOfFour
             self.assertEqual(func(0), False)
             self.assertEqual(func(1), True)
