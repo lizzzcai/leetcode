@@ -51,6 +51,32 @@ class Solution:
         return len(intersect)
 
 
+class Solution2:
+    def findMinArrowShots(self, points: List[List[int]]) -> int:
+        n = len(points)
+        if n == 0:
+            return 0
+        
+        points.sort(key=lambda x:x[1])
+        l, r = points[0][0], points[0][1]
+        count = 1
+        
+        for i in range(1, n):
+            left = points[i][0]
+            # if overlap
+            if left <= r:
+                # update the next left boundary if any
+                if left > l:
+                    l = left
+            else:
+                # if not overlap, init the l, r boundary and add one shoot
+                count += 1
+                l, r = points[i][0], points[i][1]
+                
+                
+        return count
+                
+
 # Unit Test
 import unittest
 class addTwoNumbersCase(unittest.TestCase):

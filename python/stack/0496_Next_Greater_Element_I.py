@@ -52,6 +52,30 @@ class Solution1:
                     break
             
         return res
+
+
+class Solution2:
+    '''
+    Time complexity : O(m+n)
+    Space complexity : O(m)
+    '''
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        greater = dict()
+        stack = []
+        
+        for i in range(len(nums2)-1, -1, -1):
+            while stack and stack[-1] <= nums2[i]:
+                stack.pop()
+            
+            if stack:
+                greater[nums2[i]] = stack[-1]
+            else:
+                greater[nums2[i]] = -1
+            
+            stack.append(nums2[i])
+            
+        return [greater[x] for x in nums1]
+
 # Unit Test
 import unittest
 class TestCase(unittest.TestCase):
@@ -62,7 +86,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_testCase(self):
-        for Sol in [Solution1()]:
+        for Sol in [Solution1(), Solution2()]:
             func = Sol.nextGreaterElement
             self.assertEqual(func([4,1,2],[1,3,4,2]), [-1,3,-1])
             self.assertEqual(func([2,4],[1,2,3,4]), [3,-1])
