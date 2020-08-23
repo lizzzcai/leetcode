@@ -1,1 +1,0 @@
-# 647. Palindromic Substrings - Medium
